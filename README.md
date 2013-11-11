@@ -3,6 +3,8 @@ StatusThing
 
 Mac app status bar app for SmartThings
 
+![screenshot](screenshot.png)
+
 ## Download
 Currently, the app has to be built from source so that you can add your OAuth keys. I'm currently working on adding an interface for this so this won't be necessary, and binary downloads can be offered. 
 
