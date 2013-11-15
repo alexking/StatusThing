@@ -12,13 +12,16 @@
 		6415A5B9182F4E1300EEBAA2 /* AKAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6415A5B8182F4E1300EEBAA2 /* AKAppDelegate.m */; };
 		6415A5BC182F4E1300EEBAA2 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6415A5BA182F4E1300EEBAA2 /* MainMenu.xib */; };
 		6415A5BE182F4E1300EEBAA2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6415A5BD182F4E1300EEBAA2 /* Images.xcassets */; };
-		6415A5C5182F4E1400EEBAA2 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6415A5C4182F4E1400EEBAA2 /* XCTest.framework */; };
-		6415A5C6182F4E1400EEBAA2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6415A5A5182F4E1300EEBAA2 /* Cocoa.framework */; };
+		64490A881832AF6F006F8D10 /* AKSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 64490A871832AF6F006F8D10 /* AKSettings.m */; };
+		64A901071833377F00D91489 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6415A5C4182F4E1400EEBAA2 /* XCTest.framework */; };
+		64A9010D1833377F00D91489 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64A9010B1833377F00D91489 /* InfoPlist.strings */; };
+		64A9010F1833377F00D91489 /* StatusThing_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 64A9010E1833377F00D91489 /* StatusThing_Tests.m */; };
+		64A901171833398400D91489 /* AKTestSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 64A901161833398400D91489 /* AKTestSettings.m */; };
 		B69F5283100C4CBD930BB43F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABA0628C4E3D4093B823CE66 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6415A5C7182F4E1400EEBAA2 /* PBXContainerItemProxy */ = {
+		64A901111833377F00D91489 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6415A59A182F4E1300EEBAA2 /* Project object */;
 			proxyType = 1;
@@ -41,8 +44,19 @@
 		6415A5B8182F4E1300EEBAA2 /* AKAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AKAppDelegate.m; sourceTree = "<group>"; };
 		6415A5BB182F4E1300EEBAA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		6415A5BD182F4E1300EEBAA2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		6415A5C3182F4E1400EEBAA2 /* StatusThingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StatusThingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6415A5C4182F4E1400EEBAA2 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		64490A861832AF6F006F8D10 /* AKSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AKSettings.h; path = ../AKSettings.h; sourceTree = "<group>"; };
+		64490A871832AF6F006F8D10 /* AKSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AKSettings.m; path = ../AKSettings.m; sourceTree = "<group>"; };
+		64490A9118332852006F8D10 /* StatusThing Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StatusThing Tests-Info.plist"; sourceTree = "<group>"; };
+		64490A9318332852006F8D10 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		64490A9518332852006F8D10 /* StatusThing_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatusThing_Tests.m; sourceTree = "<group>"; };
+		64490A9718332852006F8D10 /* StatusThing Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StatusThing Tests-Prefix.pch"; sourceTree = "<group>"; };
+		64A901061833377F00D91489 /* StatusThing Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "StatusThing Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		64A9010A1833377F00D91489 /* StatusThing Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StatusThing Tests-Info.plist"; sourceTree = "<group>"; };
+		64A9010C1833377F00D91489 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		64A9010E1833377F00D91489 /* StatusThing_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatusThing_Tests.m; sourceTree = "<group>"; };
+		64A901101833377F00D91489 /* StatusThing Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StatusThing Tests-Prefix.pch"; sourceTree = "<group>"; };
+		64A901161833398400D91489 /* AKTestSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AKTestSettings.m; sourceTree = "<group>"; };
 		ABA0628C4E3D4093B823CE66 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -56,12 +70,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6415A5C0182F4E1400EEBAA2 /* Frameworks */ = {
+		64A901031833377F00D91489 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6415A5C6182F4E1400EEBAA2 /* Cocoa.framework in Frameworks */,
-				6415A5C5182F4E1400EEBAA2 /* XCTest.framework in Frameworks */,
+				64A901071833377F00D91489 /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +85,8 @@
 			isa = PBXGroup;
 			children = (
 				6415A5AB182F4E1300EEBAA2 /* StatusThing */,
+				64490A8F18332852006F8D10 /* StatusThing Tests */,
+				64A901081833377F00D91489 /* StatusThing Tests */,
 				6415A5A4182F4E1300EEBAA2 /* Frameworks */,
 				6415A5A3182F4E1300EEBAA2 /* Products */,
 				19E9432CA91C494DA4F25F6D /* Pods.xcconfig */,
@@ -82,7 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				6415A5A2182F4E1300EEBAA2 /* StatusThing.app */,
-				6415A5C3182F4E1400EEBAA2 /* StatusThingTests.xctest */,
+				64A901061833377F00D91489 /* StatusThing Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -111,6 +126,8 @@
 		6415A5AB182F4E1300EEBAA2 /* StatusThing */ = {
 			isa = PBXGroup;
 			children = (
+				64490A861832AF6F006F8D10 /* AKSettings.h */,
+				64490A871832AF6F006F8D10 /* AKSettings.m */,
 				6415A5B7182F4E1300EEBAA2 /* AKAppDelegate.h */,
 				6415A5B8182F4E1300EEBAA2 /* AKAppDelegate.m */,
 				6415A5BA182F4E1300EEBAA2 /* MainMenu.xib */,
@@ -126,6 +143,45 @@
 				6415A5AD182F4E1300EEBAA2 /* StatusThing-Info.plist */,
 				6415A5B1182F4E1300EEBAA2 /* main.m */,
 				6415A5B3182F4E1300EEBAA2 /* StatusThing-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		64490A8F18332852006F8D10 /* StatusThing Tests */ = {
+			isa = PBXGroup;
+			children = (
+				64490A9518332852006F8D10 /* StatusThing_Tests.m */,
+				64490A9018332852006F8D10 /* Supporting Files */,
+			);
+			path = "StatusThing Tests";
+			sourceTree = "<group>";
+		};
+		64490A9018332852006F8D10 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				64490A9118332852006F8D10 /* StatusThing Tests-Info.plist */,
+				64490A9218332852006F8D10 /* InfoPlist.strings */,
+				64490A9718332852006F8D10 /* StatusThing Tests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		64A901081833377F00D91489 /* StatusThing Tests */ = {
+			isa = PBXGroup;
+			children = (
+				64A901161833398400D91489 /* AKTestSettings.m */,
+				64A9010E1833377F00D91489 /* StatusThing_Tests.m */,
+				64A901091833377F00D91489 /* Supporting Files */,
+			);
+			path = "StatusThing Tests";
+			sourceTree = "<group>";
+		};
+		64A901091833377F00D91489 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				64A9010A1833377F00D91489 /* StatusThing Tests-Info.plist */,
+				64A9010B1833377F00D91489 /* InfoPlist.strings */,
+				64A901101833377F00D91489 /* StatusThing Tests-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -152,22 +208,22 @@
 			productReference = 6415A5A2182F4E1300EEBAA2 /* StatusThing.app */;
 			productType = "com.apple.product-type.application";
 		};
-		6415A5C2182F4E1400EEBAA2 /* StatusThingTests */ = {
+		64A901051833377F00D91489 /* StatusThing Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6415A5D6182F4E1400EEBAA2 /* Build configuration list for PBXNativeTarget "StatusThingTests" */;
+			buildConfigurationList = 64A901131833378000D91489 /* Build configuration list for PBXNativeTarget "StatusThing Tests" */;
 			buildPhases = (
-				6415A5BF182F4E1400EEBAA2 /* Sources */,
-				6415A5C0182F4E1400EEBAA2 /* Frameworks */,
-				6415A5C1182F4E1400EEBAA2 /* Resources */,
+				64A901021833377F00D91489 /* Sources */,
+				64A901031833377F00D91489 /* Frameworks */,
+				64A901041833377F00D91489 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				6415A5C8182F4E1400EEBAA2 /* PBXTargetDependency */,
+				64A901121833377F00D91489 /* PBXTargetDependency */,
 			);
-			name = StatusThingTests;
-			productName = StatusThingTests;
-			productReference = 6415A5C3182F4E1400EEBAA2 /* StatusThingTests.xctest */;
+			name = "StatusThing Tests";
+			productName = "StatusThing Tests";
+			productReference = 64A901061833377F00D91489 /* StatusThing Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -180,7 +236,7 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Alex King";
 				TargetAttributes = {
-					6415A5C2182F4E1400EEBAA2 = {
+					64A901051833377F00D91489 = {
 						TestTargetID = 6415A5A1182F4E1300EEBAA2;
 					};
 				};
@@ -199,7 +255,7 @@
 			projectRoot = "";
 			targets = (
 				6415A5A1182F4E1300EEBAA2 /* StatusThing */,
-				6415A5C2182F4E1400EEBAA2 /* StatusThingTests */,
+				64A901051833377F00D91489 /* StatusThing Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -214,10 +270,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6415A5C1182F4E1400EEBAA2 /* Resources */ = {
+		64A901041833377F00D91489 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64A9010D1833377F00D91489 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,24 +319,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				6415A5B9182F4E1300EEBAA2 /* AKAppDelegate.m in Sources */,
+				64490A881832AF6F006F8D10 /* AKSettings.m in Sources */,
 				6415A5B2182F4E1300EEBAA2 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6415A5BF182F4E1400EEBAA2 /* Sources */ = {
+		64A901021833377F00D91489 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64A901171833398400D91489 /* AKTestSettings.m in Sources */,
+				64A9010F1833377F00D91489 /* StatusThing_Tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		6415A5C8182F4E1400EEBAA2 /* PBXTargetDependency */ = {
+		64A901121833377F00D91489 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6415A5A1182F4E1300EEBAA2 /* StatusThing */;
-			targetProxy = 6415A5C7182F4E1400EEBAA2 /* PBXContainerItemProxy */;
+			targetProxy = 64A901111833377F00D91489 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -292,11 +352,28 @@
 			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
+		64490A9218332852006F8D10 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				64490A9318332852006F8D10 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		64A9010B1833377F00D91489 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				64A9010C1833377F00D91489 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		6415A5D1182F4E1400EEBAA2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 19E9432CA91C494DA4F25F6D /* Pods.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -334,6 +411,7 @@
 		};
 		6415A5D2182F4E1400EEBAA2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 19E9432CA91C494DA4F25F6D /* Pods.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -391,40 +469,40 @@
 			};
 			name = Release;
 		};
-		6415A5D7182F4E1400EEBAA2 /* Debug */ = {
+		64A901141833378000D91489 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 19E9432CA91C494DA4F25F6D /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StatusThing.app/Contents/MacOS/StatusThing";
-				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "StatusThing/StatusThing-Prefix.pch";
+				GCC_PREFIX_HEADER = "StatusThing Tests/StatusThing Tests-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "StatusThingTests/StatusThingTests-Info.plist";
+				INFOPLIST_FILE = "StatusThing Tests/StatusThing Tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
 		};
-		6415A5D8182F4E1400EEBAA2 /* Release */ = {
+		64A901151833378000D91489 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 19E9432CA91C494DA4F25F6D /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StatusThing.app/Contents/MacOS/StatusThing";
-				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "StatusThing/StatusThing-Prefix.pch";
-				INFOPLIST_FILE = "StatusThingTests/StatusThingTests-Info.plist";
+				GCC_PREFIX_HEADER = "StatusThing Tests/StatusThing Tests-Prefix.pch";
+				INFOPLIST_FILE = "StatusThing Tests/StatusThing Tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -452,14 +530,13 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6415A5D6182F4E1400EEBAA2 /* Build configuration list for PBXNativeTarget "StatusThingTests" */ = {
+		64A901131833378000D91489 /* Build configuration list for PBXNativeTarget "StatusThing Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6415A5D7182F4E1400EEBAA2 /* Debug */,
-				6415A5D8182F4E1400EEBAA2 /* Release */,
+				64A901141833378000D91489 /* Debug */,
+				64A901151833378000D91489 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

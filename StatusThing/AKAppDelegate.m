@@ -1,63 +1,52 @@
 
 #import "AKAppDelegate.h"
 
-// User Preferences
-NSString * const kShowTemperatureInStatusBar = @"showTemperatureInStatusBar";
-NSString * const kShowTemperatureInCelsius   = @"showTemperatureInCelsius";
-NSString * const kSelectedTemperatureId      = @"selectedTemperatureId";
-
-// Other Constants
-NSString * const kAppName      = @"StatusThing";
-
-// Client ID and Secret (shh)
-NSString * const kClientId     = @"543edf56-3f4b-4dfa-b5ae-64dc6273845a";
-NSString * const kClientSecret = @"b53a0eda-0472-4268-b0b8-24bf8eba3d0d";
-
 @implementation AKAppDelegate
+
+// Preferences needs to know all the defaults
+// AKSmartThings needs to know all the defaults
+
+
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-
-    // Register our default defaults
-    NSDictionary *defaults = [NSDictionary dictionaryWithObjectsAndKeys:
-                                [NSNumber numberWithBool: YES], kShowTemperatureInStatusBar,
-                                [NSNumber numberWithBool: YES], kShowTemperatureInCelsius,
-                                @"", kSelectedTemperatureId,
-                              nil];
     
-    [[NSUserDefaults standardUserDefaults] registerDefaults: defaults];
+    // Settings
+    self.settings = [[AKSettings alloc] init];
     
     // Setup
     self.items = [[NSMutableArray alloc] init];
     self.preferencesTemperatureSensorTitleToId = [[NSMutableDictionary alloc] init];
     
     // Use AKSmartThings
-    self.things = [[AKSmartThings alloc] initWithClientId: kClientId];
+    self.things = [[AKSmartThings alloc] init];
     self.things.delegate = self; 
-    [self.things setPort: 2323];
+    [self.things setPort: 2324];
+
+    // Set the ID and secret if we have them
+    self.things.clientId = self.settings.clientId;
+    self.things.clientSecret = self.settings.clientSecret;
+    self.things.accessToken = self.settings.accessToken;
     
     // Lets use the application url scheme feature
     self.things.applicationUrlScheme = @"statusthing";
     
-    // Look for an existing access token
-    self.accessToken = [RFKeychain passwordForAccount: kAppName service: @"SmartThings"];
-
     // Setup our status bar item
     self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength: NSVariableStatusItemLength];
     [self.statusItem setHighlightMode: YES];
-    
-    // Handles temperature / icon display
-    [self refreshStatusItem];
     
     // Setup the menu for the status bar item
     self.statusMenu = [[NSMenu alloc] initWithTitle: @"Menu"];
     [self.statusItem setMenu: self.statusMenu];
     
+    // Load preferences
+    [self loadPreferences];
+    
+    // If there aren't any items, the menu will be disconnected, and it will default to the action
+    [self.statusItem setAction: @selector(showPreferences)];
+    
     // If we have an access token
-    if (self.accessToken != nil) {
-
-        // Provide AKSmartThings with the access token
-        [self.things setAccessToken: self.accessToken];
+    if (self.settings.accessToken != nil) {
         
         // Set preferences default to general
         [self.preferencesToolbar setSelectedItemIdentifier: @"general"];
@@ -70,20 +59,21 @@ NSString * const kClientSecret = @"b53a0eda-0472-4268-b0b8-24bf8eba3d0d";
         // If we don't have the access token, start connecting and show preferences on the account tab
         [self.preferencesToolbar setSelectedItemIdentifier: @"account"];
         [self.preferenceTabs selectTabViewItemWithIdentifier: @"account"];
-
-        // Begin authorization
-        [self authorize];
         
         [self showPreferences];
     }
-   
+    
+
+    // Handles temperature / icon display
+    [self refreshStatusItem];
+    
     // Build the menu
     [self refreshMenu];
 }
 
 - (void) authorize {
     
-    bool success = [self.things askUserForPermissionUsingClientSecret: kClientSecret];
+    bool success = [self.things askUserForPermissionUsingClientSecret: self.settings.clientSecret];
     
     if (!success)
     {
@@ -95,11 +85,17 @@ NSString * const kClientSecret = @"b53a0eda-0472-4268-b0b8-24bf8eba3d0d";
 
 }
 
+- (void)handleError: (NSError *)error
+{
+    
+    NSLog(@"%@", error);
+    
+}
+
+
 - (void) authorized {
     
-    [self.statusLabel setStringValue: @"Connected to SmartThings"];
-    [self.preferencesAccountStatusImage setImage: [NSImage imageNamed: @"green"]];
-    [self.authorizeButton setTitle: @"Reauthorize"];
+    [self refreshPreferences];
     
 }
 
@@ -112,12 +108,31 @@ NSString * const kClientSecret = @"b53a0eda-0472-4268-b0b8-24bf8eba3d0d";
 
 /*! Handle menu building */
 - (void) refreshMenu {
+
+    // We may want to give up on the menu before we start
+    if (self.items == nil || [self.items count] == 0)
+    {
+        
+        // Remove the menu
+        [self.statusItem setMenu: nil];
+        
+        return;
+        
+    } else {
+
+        // Reattach if it's missing
+        if ([self.statusItem menu] == nil)
+        {
+            [self.statusItem setMenu: self.statusMenu];
+        }
+        
+    }
     
     // Remove existing items
     [self.statusMenu removeAllItems];
     
     // If we're not showing the temperature in the status bar, show it in the menu
-    if (![[[NSUserDefaults standardUserDefaults] objectForKey: kShowTemperatureInStatusBar] boolValue])
+    if (![self.settings showTemperatureInCelsius])
     {
         
         [self.statusMenu addItem: [[NSMenuItem alloc] initWithTitle: [self temperatureInScale]
@@ -127,8 +142,7 @@ NSString * const kClientSecret = @"b53a0eda-0472-4268-b0b8-24bf8eba3d0d";
         [self.statusMenu addItem: [NSMenuItem separatorItem]];
         
     }
- 
-
+     
     // Add items
     for (NSDictionary *item in self.items) {
         
@@ -149,11 +163,15 @@ NSString * const kClientSecret = @"b53a0eda-0472-4268-b0b8-24bf8eba3d0d";
         [self.statusMenu addItem: menuItem];
     }
     
+    if ([self.items count] > 0)
+    {
+        
+        // Preferences
+        [self.statusMenu addItem: [NSMenuItem separatorItem]];
+        
+    }
     
-    
-    // Preferences
-    [self.statusMenu addItem: [NSMenuItem separatorItem]];
-    
+  
     NSMenuItem *item = [[NSMenuItem alloc] initWithTitle: @"Preferences..."
                                                          action: @selector(showPreferences)
                                                   keyEquivalent: @","];
@@ -177,7 +195,7 @@ NSString * const kClientSecret = @"b53a0eda-0472-4268-b0b8-24bf8eba3d0d";
 {
     
     // Show the temperature
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey: kShowTemperatureInStatusBar] boolValue])
+    if ([self.settings showTemperatureInStatusBar])
     {
         
         [self.statusItem setImage: nil];
@@ -199,45 +217,60 @@ NSString * const kClientSecret = @"b53a0eda-0472-4268-b0b8-24bf8eba3d0d";
 - (NSString *) temperatureInScale
 {
     
-    // If we don't have a temperature yet
+    // If we don't have any temperatures yet
     if (self.temperatures == nil)
     {
         
         // Display a placeholder
         return @"--°";
         
-    } else {
+    }
+    
+    // Look for the temperature
+    NSNumber *temperatureNumber;
+    
+    // Display the temperature
+    if (! [[self.settings temperatureId] isEqualToString: @""])
+    {
         
-        long temperature;
-        
-        // Display the temperature
-        if ([[[NSUserDefaults standardUserDefaults] objectForKey: kSelectedTemperatureId] isEqualToString: @""])
-        {
-            temperature = [[[self.temperatures firstObject] objectForKey: @"value"] longValue];
-        } else {
-            NSString *sensorId = [[NSUserDefaults standardUserDefaults] objectForKey: kSelectedTemperatureId];
+        NSString *sensorId = [self.settings temperatureId];
 
-            for (NSDictionary *sensor in self.temperatures) {
-                
-                if ([[sensor objectForKey: @"id"] isEqualToString: sensorId])
-                {
-                    temperature = [[sensor objectForKey: @"value"] longValue];
-                    continue;
-                }
-                
+        for (NSDictionary *sensor in self.temperatures) {
+            
+            if ([[sensor objectForKey: @"id"] isEqualToString: sensorId])
+            {
+                temperatureNumber = [sensor objectForKey: @"value"];
+                continue;
             }
             
         }
         
-        
-        
-        if ([[[NSUserDefaults standardUserDefaults] objectForKey: kShowTemperatureInCelsius] boolValue]) {
-            temperature = (temperature - 32) * (5.0 / 9.0);
-        }
-        
-        return [NSString stringWithFormat: @"%ld°", temperature];
-        
     }
+    
+    // If temperature number is still nil, then just use the first object
+    if (temperatureNumber == nil)
+    {
+        temperatureNumber = [[self.temperatures firstObject] objectForKey: @"value"];
+    }
+    
+    // If we still don't have anything, whatever we do, don't show crazy long values
+    if (temperatureNumber == nil)
+    {
+        return @"--°";
+    }
+    
+    // Convert to long
+    long temperature = [temperatureNumber longValue];
+
+    // Convert to celsius if requested
+    if ([self.settings showTemperatureInCelsius])
+    {
+        temperature = (temperature - 32) * (5.0 / 9.0);
+    }
+    
+    return [NSString stringWithFormat: @"%ld°", temperature];
+    
+
 
 }
 
@@ -275,7 +308,7 @@ NSString * const kClientSecret = @"b53a0eda-0472-4268-b0b8-24bf8eba3d0d";
 /*! Update the interface from SmartThings */
 - (void) itemsAndTemperatureFound: (id) json
 {
-    NSLog(@"%@", json);
+
     NSArray *items = [json objectForKey: @"items"];
     self.temperatures = [json objectForKey: @"temperatures" ];
     
@@ -294,6 +327,8 @@ NSString * const kClientSecret = @"b53a0eda-0472-4268-b0b8-24bf8eba3d0d";
     
     // Set items
     self.items = allItems;
+    
+    [self refreshPreferences];
     
     // Refresh the interface
     [self refreshInterface];
@@ -341,38 +376,63 @@ NSString * const kClientSecret = @"b53a0eda-0472-4268-b0b8-24bf8eba3d0d";
     // Show that authorization was successful
     [self authorized];
     
-    [RFKeychain setPassword: accessToken account: kAppName service: @"SmartThings"];
+    self.settings.accessToken = accessToken;
     
 }
 
 
-- (void)applicationWillTerminate:(NSNotification *)notification
-{
-
-    [[NSStatusBar systemStatusBar] removeStatusItem: self.statusItem];
-
-}
-
-
-/* Preferences */
-- (void)showPreferences
+/*! Load preferences - this only happens the first time the app loads */
+- (void)loadPreferences 
 {
     
     // Load in our preferences
-    [self.preferencesShowTemperatureInStatusBar setIntegerValue:
-     [[[NSUserDefaults standardUserDefaults] objectForKey: kShowTemperatureInStatusBar] integerValue] ];
-
-    [self.preferencesTemperatureScale selectItemWithTag:
-        [[[NSUserDefaults standardUserDefaults] objectForKey: kShowTemperatureInCelsius] integerValue] ];
+    [self.preferencesShowTemperatureInStatusBar setIntegerValue: [self.settings showTemperatureInStatusBar] ];
     
+    [self.preferencesTemperatureScale selectItemWithTag: [self.settings showTemperatureInCelsius]];
+    
+    // Set the OAuth fields
+    if (self.settings.clientId)
+    {
+        [self.preferencesClientId setStringValue: self.settings.clientId];
+    }
+    
+    if (self.settings.clientSecret)
+    {
+        [self.preferencesClientSecret setStringValue: self.settings.clientSecret];
+    }
+    
+    [self validateOAuthFields];
 
+    if (self.settings.accessToken != nil)
+    {
+        [self authorized];
+        
+    }
+    
+}
+
+/*! Refresh preferences - call whenever there should be a UI change in preferences */
+- (void)refreshPreferences
+{
+    
+    /***************
+     * General Tab |
+     **************/
+    
+    if ([self.settings showTemperatureInStatusBar])
+    {
+        [self.preferencesTemperatureSensor setEnabled: YES];
+    } else {
+        [self.preferencesTemperatureSensor setEnabled: NO];
+    }
+    
     // Load in temperature items
     if (self.temperatures != nil) {
         
         [self.preferencesTemperatureSensor removeAllItems];
         
         for (NSDictionary *sensor in self.temperatures) {
-
+            
             // Check if there are any items with this name already
             int tries = 0;
             NSString *sensorName = [sensor objectForKey: @"name"];
@@ -390,40 +450,147 @@ NSString * const kClientSecret = @"b53a0eda-0472-4268-b0b8-24bf8eba3d0d";
             [self.preferencesTemperatureSensorTitleToId setObject: [sensor objectForKey: @"id"] forKey:displayName];
             
             // If this is our item, select it
-            if ([[[NSUserDefaults standardUserDefaults] objectForKey: kSelectedTemperatureId] isEqualToString: [sensor objectForKey: @"id"]])
+            if ([self.settings.temperatureId isEqualToString: [sensor objectForKey: @"id"]])
             {
                 [self.preferencesTemperatureSensor selectItemWithTitle: displayName];
             }
+            
         }
         
-      
-        
     }
+
+    /***************
+     | Account Tab *
+     **************/
     
-    if (self.accessToken != nil)
+    if ([self.settings accessToken])
     {
         
-        [self authorized];
+        [self.preferencesClientId setEnabled: NO];
+        [self.preferencesClientSecret setEnabled: NO];
+
+        [self.statusLabel setStringValue: @"Connected to SmartThings"];
+        [self.preferencesAccountStatusImage setImage: [NSImage imageNamed: @"green"]];
+        [self.authorizeButton setTitle: @"Reauthorize"];
+        [self.authorizeButton setImage: [NSImage imageNamed: @"NSRefreshTemplate"]];
+        [self.preferencesDisconnect setHidden: NO];
+
+    } else {
+        
+        [self.preferencesClientId setEnabled: YES];
+        [self.preferencesClientSecret setEnabled: YES];
+        
+        [self.statusLabel setStringValue: @"Not connected to SmartThings"];
+        [self.preferencesAccountStatusImage setImage: [NSImage imageNamed: @"gray"]];
+        [self.authorizeButton setTitle: @"Authorize"];
+        [self.authorizeButton setImage: nil];
+        [self.preferencesDisconnect setHidden: YES];
+
     }
     
-    [self refreshPreferences];
+}
+
+/*! Show preferences - call only to show the preferences dialog */
+- (void)showPreferences
+{
     
     [self.window makeKeyAndOrderFront: self];
     [NSApp activateIgnoringOtherApps: YES];
+
 }
 
+- (IBAction)preferencesDisconnect:(NSButton *)sender {
 
-- (NSArray *)toolbarSelectableItemIdentifiers: (NSToolbar *)toolbar;
+    // Remove the access token
+    self.settings.accessToken = nil;
+    self.temperatures = nil;
+    self.items = nil;
+    
+    [self refreshInterface];
+
+}
+
+-(bool)looksLikeOAuth: (NSString *)prospect
 {
-    return [NSArray arrayWithObjects: @"general", @"account", nil];
+    if (prospect == nil)
+    {
+        return NO;
+    }
+    
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern: @".+-.+-.+-.+-.+" options: 0 error: nil];
+    NSUInteger looksLikeOAuth = [regex numberOfMatchesInString: prospect options: 0 range: NSMakeRange(0, [prospect length])];
+    
+    return looksLikeOAuth ? YES : NO;
+}
+
+-(void)controlTextDidChange:(NSNotification*)aNotification
+{
+    
+    // Validate on each change
+    [self validateOAuthFields];
+    
+    // OAuth on each change
+    [self.settings setClientId: [self.preferencesClientId stringValue]];
+    [self.settings setClientSecret: [self.preferencesClientSecret stringValue]];
+
+}
+
+-(void)viewInstructions:(NSButton *)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: @"https://github.com/alexking/StatusThing/blob/master/README.md"]];
+}
+
+/* OAuth Validation */
+-(bool)validateOAuthClientId
+{
+    bool clientIdValid = [self looksLikeOAuth: [self.preferencesClientId stringValue]];
+    
+    if (clientIdValid)
+    {
+        [self.preferencesClientIdStatus setImage: [NSImage imageNamed: @"green"]];
+    } else {
+        [self.preferencesClientIdStatus setImage: [NSImage imageNamed: @"gray"]];
+    }
+    
+    return clientIdValid;
+}
+
+-(bool)validateOAuthClientSecret
+{
+    bool clientSecretValid = [self looksLikeOAuth: [self.preferencesClientSecret stringValue]];
+
+    // Handle UI changes
+    if (clientSecretValid)
+    {
+        [self.preferencesClientSecretStatus setImage: [NSImage imageNamed: @"green"]];
+    } else {
+        [self.preferencesClientSecretStatus setImage: [NSImage imageNamed: @"gray"]];
+    }
+    
+    return clientSecretValid;
+}
+
+-(bool)validateOAuthFields
+{
+    
+    // Validate both with one call
+    bool oAuthValid = ([self validateOAuthClientId] && [self validateOAuthClientSecret]);
+    
+    // Handle UI changes
+    if (oAuthValid)
+    {
+        [self.authorizeButton setEnabled: YES];
+    }
+    
+    return oAuthValid;
 }
 
 
+/* Tab Switching */
 - (IBAction)preferencesGeneral:(NSToolbarItem *)sender
 {
     [self.preferenceTabs selectTabViewItemWithIdentifier: [sender itemIdentifier] ];
 }
-
 
 - (IBAction)preferencesAccount:(NSToolbarItem *)sender
 {
@@ -431,44 +598,41 @@ NSString * const kClientSecret = @"b53a0eda-0472-4268-b0b8-24bf8eba3d0d";
 }
 
 
-- (IBAction)preferencesShowTemperatureInStatusBar:(NSButton *)sender {
-    
-    [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithBool: [sender integerValue]]
-                                              forKey: kShowTemperatureInStatusBar];
+/* Saving Preferences */
+- (IBAction)preferencesShowTemperatureInStatusBar:(NSButton *)sender
+{
+    [self.settings setShowTemperatureInStatusBar: [sender integerValue]];
     
     [self refreshInterface];
     
 }
 
-
-- (IBAction)preferencesTemperatureScale:(NSPopUpButton *)sender {
+- (IBAction)preferencesTemperatureScale:(NSPopUpButton *)sender
+{
     
-    [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithInteger: [[sender selectedItem] tag]]
-                                              forKey: kShowTemperatureInCelsius];
+    [self.settings setShowTemperatureInCelsius: [[sender selectedItem] tag]];
 
     [self refreshInterface];
     
 }
 
-- (IBAction)preferencesTemperatureSensor:(NSPopUpButton *)sender {
-
-    NSString *sensorId = [self.preferencesTemperatureSensorTitleToId objectForKey: [[sender selectedItem] title]];
+- (IBAction)preferencesTemperatureSensor:(NSPopUpButton *)sender
+{
     
-    [[NSUserDefaults standardUserDefaults] setObject: sensorId
-                                              forKey: kSelectedTemperatureId];
-
+    self.settings.temperatureId = [self.preferencesTemperatureSensorTitleToId objectForKey: [[sender selectedItem] title]];
+    
     [self refreshInterface];
 }
 
-- (void) refreshPreferences {
+
+/* Termination */
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
     
-    if ([self.preferencesShowTemperatureInStatusBar integerValue] == 0)
-    {
-        [self.preferencesTemperatureSensor setEnabled: NO];
-    } else {
-        [self.preferencesTemperatureSensor setEnabled: YES];
-    }
+    // Clean up our status bar
+    [[NSStatusBar systemStatusBar] removeStatusItem: self.statusItem];
     
 }
+
 
 @end
