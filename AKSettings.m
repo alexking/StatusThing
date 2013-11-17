@@ -10,15 +10,7 @@
     if (self != nil)
     {
         
-        // Register our default defaults
-        NSDictionary *defaults = [NSDictionary dictionaryWithObjectsAndKeys:
-                                  [NSNumber numberWithBool: YES], @"showTemperatureInStatusBar",
-                                  [NSNumber numberWithBool: YES], @"showTemperatureInCelsius",
-                                  @"",                            @"selectedTemperatureId",
-                                  nil];
-
-        [[NSUserDefaults standardUserDefaults] registerDefaults: defaults];
-
+        [self defaultDefaults];
         
     }
     
@@ -26,6 +18,35 @@
     
 }
 
+- (void)defaultDefaults
+{
+    
+    // Register our default defaults
+    NSDictionary *defaults = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSNumber numberWithBool: YES], @"showTemperatureInStatusBar",
+                              [NSNumber numberWithBool: YES], @"showTemperatureInCelsius",
+                              @"",                            @"selectedTemperatureId",
+                              nil];
+    
+    [[NSUserDefaults standardUserDefaults] registerDefaults: defaults];
+    
+
+}
+
+/*! Remove all settings, passwords, and tokens */
+- (void)reset
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey: @"clientId"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey: @"showTemperatureInStatusBar"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey: @"showTemperatureInCelsius"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey: @"temperatureId"];
+
+    [[FXKeychain defaultKeychain] removeObjectForKey: @"clientSecret"];
+    [[FXKeychain defaultKeychain] removeObjectForKey: @"accessToken"];
+
+    [self defaultDefaults];
+    
+}
 
 /* clientId */
 - (void)setClientId: (NSString *)value

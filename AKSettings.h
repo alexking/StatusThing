@@ -16,5 +16,6 @@
 -(bool)showTemperatureInStatusBar;
 -(void)setShowTemperatureInCelsius: (bool)value;
 -(bool)showTemperatureInCelsius;
+- (void)reset;
 
 @end

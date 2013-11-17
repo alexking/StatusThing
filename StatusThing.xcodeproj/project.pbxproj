@@ -17,6 +17,9 @@
 		64A9010D1833377F00D91489 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64A9010B1833377F00D91489 /* InfoPlist.strings */; };
 		64A9010F1833377F00D91489 /* StatusThing_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 64A9010E1833377F00D91489 /* StatusThing_Tests.m */; };
 		64A901171833398400D91489 /* AKTestSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 64A901161833398400D91489 /* AKTestSettings.m */; };
+		64B497C2183735DD007BB1D0 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64B497C1183735DD007BB1D0 /* Sparkle.framework */; };
+		64B497C5183737F8007BB1D0 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 64B497C1183735DD007BB1D0 /* Sparkle.framework */; };
+		64B497C718373E5D007BB1D0 /* sparkle-public-key.pem in Resources */ = {isa = PBXBuildFile; fileRef = 64B497C618373E5D007BB1D0 /* sparkle-public-key.pem */; };
 		B69F5283100C4CBD930BB43F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABA0628C4E3D4093B823CE66 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +32,19 @@
 			remoteInfo = StatusThing;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		64B497C4183737D5007BB1D0 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				64B497C5183737F8007BB1D0 /* Sparkle.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		19E9432CA91C494DA4F25F6D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
@@ -57,6 +73,8 @@
 		64A9010E1833377F00D91489 /* StatusThing_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatusThing_Tests.m; sourceTree = "<group>"; };
 		64A901101833377F00D91489 /* StatusThing Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StatusThing Tests-Prefix.pch"; sourceTree = "<group>"; };
 		64A901161833398400D91489 /* AKTestSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AKTestSettings.m; sourceTree = "<group>"; };
+		64B497C1183735DD007BB1D0 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		64B497C618373E5D007BB1D0 /* sparkle-public-key.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "sparkle-public-key.pem"; sourceTree = "<group>"; };
 		ABA0628C4E3D4093B823CE66 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -66,6 +84,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6415A5A6182F4E1300EEBAA2 /* Cocoa.framework in Frameworks */,
+				64B497C2183735DD007BB1D0 /* Sparkle.framework in Frameworks */,
 				B69F5283100C4CBD930BB43F /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -105,6 +124,7 @@
 		6415A5A4182F4E1300EEBAA2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				64B497C1183735DD007BB1D0 /* Sparkle.framework */,
 				6415A5A5182F4E1300EEBAA2 /* Cocoa.framework */,
 				6415A5C4182F4E1400EEBAA2 /* XCTest.framework */,
 				6415A5A7182F4E1300EEBAA2 /* Other Frameworks */,
@@ -140,6 +160,7 @@
 		6415A5AC182F4E1300EEBAA2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				64B497C618373E5D007BB1D0 /* sparkle-public-key.pem */,
 				6415A5AD182F4E1300EEBAA2 /* StatusThing-Info.plist */,
 				6415A5B1182F4E1300EEBAA2 /* main.m */,
 				6415A5B3182F4E1300EEBAA2 /* StatusThing-Prefix.pch */,
@@ -198,6 +219,7 @@
 				6415A59F182F4E1300EEBAA2 /* Frameworks */,
 				6415A5A0182F4E1300EEBAA2 /* Resources */,
 				C763CCFF0B6E4EE7AF53D3CA /* Copy Pods Resources */,
+				64B497C4183737D5007BB1D0 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -266,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6415A5BE182F4E1300EEBAA2 /* Images.xcassets in Resources */,
+				64B497C718373E5D007BB1D0 /* sparkle-public-key.pem in Resources */,
 				6415A5BC182F4E1300EEBAA2 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -447,6 +470,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/squidly/Downloads/Sparkle\\ 1",
+					/Users/squidly/github/StatusThing,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StatusThing/StatusThing-Prefix.pch";
 				INFOPLIST_FILE = "StatusThing/StatusThing-Info.plist";
@@ -461,6 +489,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/squidly/Downloads/Sparkle\\ 1",
+					/Users/squidly/github/StatusThing,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StatusThing/StatusThing-Prefix.pch";
 				INFOPLIST_FILE = "StatusThing/StatusThing-Info.plist";
@@ -537,6 +570,7 @@
 				64A901151833378000D91489 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

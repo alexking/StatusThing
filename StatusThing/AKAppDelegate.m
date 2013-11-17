@@ -3,11 +3,6 @@
 
 @implementation AKAppDelegate
 
-// Preferences needs to know all the defaults
-// AKSmartThings needs to know all the defaults
-
-
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     
@@ -69,6 +64,37 @@
     
     // Build the menu
     [self refreshMenu];
+}
+
+
+- (IBAction)clearAllSettings:(NSButton *)sender {
+
+    NSAlert *confirm = [NSAlert alertWithMessageText: @"Clear All Settings" defaultButton: @"Cancel" alternateButton: @"Yes, Delete Them All" otherButton: nil informativeTextWithFormat:@"Are you sure you want to remove all application settings, including OAuth configuration?"];
+    
+    [confirm beginSheetModalForWindow: self.window completionHandler:^(NSModalResponse returnCode) {
+        
+        // Make sure they clicked the alternate button
+        if (returnCode == NSAlertAlternateReturn)
+        {
+            
+            // Clear all settings
+            [self.settings reset];
+            
+            self.things.clientId = nil;
+            self.things.clientSecret = nil;
+            self.things.accessToken = nil;
+            
+            // Remove the data
+            self.temperatures = nil;
+            self.items = nil;
+            
+            [self requestUpdateFromServer];
+            [self clearPreferences];
+            [self refreshInterface];
+        }
+        
+    }];
+
 }
 
 - (void) authorize {
@@ -183,9 +209,11 @@
     // Quit
     [self.statusMenu addItem: [NSMenuItem separatorItem]];
     
-    [self.statusMenu addItem: [[NSMenuItem alloc] initWithTitle: @"Quit"
-                                                         action: @selector(terminate:)
-                                                  keyEquivalent: @"q"]];
+    NSMenuItem *quit = [[NSMenuItem alloc] initWithTitle: @"Quit"
+                                                  action: @selector(terminate:)
+                                           keyEquivalent: @"q"];
+    
+    [self.statusMenu addItem: quit];
 
 
 }
@@ -300,8 +328,15 @@
 /*! Request an update from server */
 - (void) requestUpdateFromServer
 {
+    
+    NSLog(@"Checking with %@", self.settings.accessToken);
 
-    [self.things getJSONFor: @"updateItemsAndTemperature" withCallback: @selector(itemsAndTemperatureFound:)];
+    if (self.settings.accessToken)
+    {
+    
+        [self.things getJSONFor: @"updateItemsAndTemperature" withCallback: @selector(itemsAndTemperatureFound:)];
+        
+    }
 
 }
 
@@ -415,6 +450,9 @@
 - (void)refreshPreferences
 {
     
+    [self validateOAuthFields];
+    
+    
     /***************
      * General Tab |
      **************/
@@ -428,7 +466,7 @@
     
     // Load in temperature items
     if (self.temperatures != nil) {
-        
+
         [self.preferencesTemperatureSensor removeAllItems];
         
         for (NSDictionary *sensor in self.temperatures) {
@@ -499,6 +537,15 @@
 
 }
 
+/*! Clear preferences */
+- (void)clearPreferences
+{
+    [self.preferencesTemperatureSensor removeAllItems];
+    [self.preferencesClientId setStringValue: @""];
+    [self.preferencesClientSecret setStringValue: @""];
+
+}
+
 - (IBAction)preferencesDisconnect:(NSButton *)sender {
 
     // Remove the access token
@@ -526,13 +573,19 @@
 -(void)controlTextDidChange:(NSNotification*)aNotification
 {
     
+    NSLog(@"%@", [self.preferencesClientSecret stringValue]);
+    
     // Validate on each change
     [self validateOAuthFields];
-    
-    // OAuth on each change
+
+    // Save settings
     [self.settings setClientId: [self.preferencesClientId stringValue]];
     [self.settings setClientSecret: [self.preferencesClientSecret stringValue]];
 
+    // Update things
+    self.things.clientId = self.settings.clientId;
+    self.things.clientSecret = self.settings.clientSecret;
+    
 }
 
 -(void)viewInstructions:(NSButton *)sender
@@ -573,8 +626,10 @@
 -(bool)validateOAuthFields
 {
     
-    // Validate both with one call
-    bool oAuthValid = ([self validateOAuthClientId] && [self validateOAuthClientSecret]);
+    // Validate both
+    bool clientIdValid = [self validateOAuthClientId];
+    bool clientSecretValid = [self validateOAuthClientSecret];
+    bool oAuthValid = (clientIdValid && clientSecretValid);
     
     // Handle UI changes
     if (oAuthValid)
@@ -594,6 +649,10 @@
 
 - (IBAction)preferencesAccount:(NSToolbarItem *)sender
 {
+    [self.preferenceTabs selectTabViewItemWithIdentifier: [sender itemIdentifier] ];
+}
+
+- (IBAction)preferencesUpdates:(NSToolbarItem *)sender {
     [self.preferenceTabs selectTabViewItemWithIdentifier: [sender itemIdentifier] ];
 }
 
@@ -624,6 +683,9 @@
     [self refreshInterface];
 }
 
+- (IBAction)preferencesViewAbout:(NSButton *)sender {
+    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: @"https://github.com/alexking/StatusThing/wiki/About-Page"]];
+}
 
 /* Termination */
 - (void)applicationWillTerminate:(NSNotification *)notification

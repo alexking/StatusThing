@@ -32,6 +32,7 @@
     XCTAssertTrue([self.settings.clientId isEqualToString: @"123"], @"testClientId");
     XCTAssertFalse([self.settings.clientId isEqualToString: @"1234"], @"testClientId");
 
+    self.settings.clientId = nil;
     
 }
 
@@ -43,7 +44,9 @@
     
     XCTAssertTrue([self.settings.temperatureId isEqualToString: @"123"], @"testTemperatureId");
     XCTAssertFalse([self.settings.temperatureId isEqualToString: @"1234"], @"testTemperatureId");
-    
+
+    self.settings.temperatureId = nil;
+
     
 }
 
@@ -56,7 +59,7 @@
     XCTAssertTrue([self.settings.clientSecret isEqualToString: @"123"], @"testClientSecret");
     XCTAssertFalse([self.settings.clientSecret isEqualToString: @"1234"], @"testClientSecret");
     
-    
+    self.settings.clientSecret = nil;
 }
 
 - (void)testAccessToken
@@ -67,7 +70,7 @@
     XCTAssertTrue([self.settings.accessToken isEqualToString: @"123"], @"testAccessToken");
     XCTAssertFalse([self.settings.accessToken isEqualToString: @"1234"], @"testAccessToken");
     
-    
+    self.settings.accessToken = nil;
 }
 
 - (void)testTemperatureInCelsius
