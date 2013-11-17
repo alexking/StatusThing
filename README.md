@@ -6,7 +6,7 @@ Mac app status bar app for SmartThings
 ![screenshot](screenshot.png)
 
 ## Download
-You can [download the app here](http://alexking.io/StatusThing/StatusThing.zip) (tested on OSX 10.9 only). It's just version 0.1, so please post any issues you encounter!
+You can [download the app here](http://alexking.io/StatusThing) (tested on OSX 10.9 only). It's just version 0.1, so please post any issues you encounter!
 
 ## Installation Instructions 
 
