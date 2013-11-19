@@ -20,6 +20,7 @@
 		64B497C2183735DD007BB1D0 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64B497C1183735DD007BB1D0 /* Sparkle.framework */; };
 		64B497C5183737F8007BB1D0 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 64B497C1183735DD007BB1D0 /* Sparkle.framework */; };
 		64B497C718373E5D007BB1D0 /* sparkle-public-key.pem in Resources */ = {isa = PBXBuildFile; fileRef = 64B497C618373E5D007BB1D0 /* sparkle-public-key.pem */; };
+		64B497CA1839D035007BB1D0 /* AKLaunchItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 64B497C91839D035007BB1D0 /* AKLaunchItem.m */; };
 		B69F5283100C4CBD930BB43F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABA0628C4E3D4093B823CE66 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,8 @@
 		64A901161833398400D91489 /* AKTestSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AKTestSettings.m; sourceTree = "<group>"; };
 		64B497C1183735DD007BB1D0 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		64B497C618373E5D007BB1D0 /* sparkle-public-key.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "sparkle-public-key.pem"; sourceTree = "<group>"; };
+		64B497C81839D035007BB1D0 /* AKLaunchItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AKLaunchItem.h; sourceTree = "<group>"; };
+		64B497C91839D035007BB1D0 /* AKLaunchItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AKLaunchItem.m; sourceTree = "<group>"; };
 		ABA0628C4E3D4093B823CE66 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -148,6 +151,8 @@
 			children = (
 				64490A861832AF6F006F8D10 /* AKSettings.h */,
 				64490A871832AF6F006F8D10 /* AKSettings.m */,
+				64B497C81839D035007BB1D0 /* AKLaunchItem.h */,
+				64B497C91839D035007BB1D0 /* AKLaunchItem.m */,
 				6415A5B7182F4E1300EEBAA2 /* AKAppDelegate.h */,
 				6415A5B8182F4E1300EEBAA2 /* AKAppDelegate.m */,
 				6415A5BA182F4E1300EEBAA2 /* MainMenu.xib */,
@@ -344,6 +349,7 @@
 				6415A5B9182F4E1300EEBAA2 /* AKAppDelegate.m in Sources */,
 				64490A881832AF6F006F8D10 /* AKSettings.m in Sources */,
 				6415A5B2182F4E1300EEBAA2 /* main.m in Sources */,
+				64B497CA1839D035007BB1D0 /* AKLaunchItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

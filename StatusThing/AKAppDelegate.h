@@ -3,6 +3,7 @@
 #import <AKSmartThings/AKSmartThings.h>
 #import <CocoaHTTPServer/HTTPServer.h>
 #import "AKSettings.h"
+#import "AKLaunchItem.h"
 
 @interface AKAppDelegate : NSObject <NSApplicationDelegate, AKSmartThingsDelegate, NSTextDelegate>
 
@@ -11,6 +12,7 @@
 // Library Instances
 @property (strong) AKSmartThings *things;
 @property (strong) AKSettings *settings;
+@property (strong) AKLaunchItem *launch; 
 
 // State management
 @property NSMutableArray *items;
@@ -40,6 +42,10 @@
 - (IBAction)preferencesShowTemperatureInStatusBar:(NSButton *)sender;
 - (IBAction)preferencesTemperatureScale:(NSPopUpButton *)sender;
 - (IBAction)preferencesTemperatureSensor:(NSPopUpButton *)sender;
+
+@property (weak) IBOutlet NSButton *preferencesStartAtLogin;
+- (IBAction)preferencesStartAtLogin:(NSButton *)sender;
+
 
 @property (weak) IBOutlet NSImageView *preferencesClientIdStatus;
 @property (weak) IBOutlet NSImageView *preferencesClientSecretStatus;

@@ -649,14 +649,14 @@
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="371">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="1555" y="838" width="497" height="98"/>
+            <rect key="contentRect" x="1555" y="838" width="497" height="124"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
             <view key="contentView" verticalHuggingPriority="1000" id="372">
-                <rect key="frame" x="0.0" y="0.0" width="497" height="98"/>
+                <rect key="frame" x="0.0" y="0.0" width="497" height="124"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <tabView verticalHuggingPriority="1000" type="noTabsNoBorder" translatesAutoresizingMaskIntoConstraints="NO" id="hFC-8b-ovW">
-                        <rect key="frame" x="0.0" y="0.0" width="497" height="98"/>
+                        <rect key="frame" x="0.0" y="0.0" width="497" height="124"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="497" id="D8y-MX-QI0"/>
@@ -665,11 +665,11 @@
                         <tabViewItems>
                             <tabViewItem label="general" identifier="general" id="0zu-7o-y6k">
                                 <view key="view" verticalHuggingPriority="1000" id="WWe-4V-epN">
-                                    <rect key="frame" x="0.0" y="0.0" width="497" height="97"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="497" height="124"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <popUpButton verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="79L-98-2MC">
-                                            <rect key="frame" x="49" y="53" width="62" height="26"/>
+                                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="79L-98-2MC">
+                                            <rect key="frame" x="49" y="80" width="62" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="57" id="m8j-cQ-Efw"/>
@@ -688,8 +688,8 @@
                                                 <action selector="preferencesTemperatureScale:" target="494" id="tGy-4m-paT"/>
                                             </connections>
                                         </popUpButton>
-                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PPc-AF-gKa">
-                                            <rect key="frame" x="18" y="58" width="27" height="17"/>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PPc-AF-gKa">
+                                            <rect key="frame" x="18" y="85" width="27" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Use" id="Xgo-7W-qHw">
                                                 <font key="font" metaFont="system"/>
@@ -697,8 +697,8 @@
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mL3-S1-1Ra">
-                                            <rect key="frame" x="18" y="19" width="172" height="18"/>
+                                        <button translatesAutoresizingMaskIntoConstraints="NO" id="mL3-S1-1Ra">
+                                            <rect key="frame" x="18" y="51" width="172" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Show temperature from" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="DbU-m7-wQg">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -709,7 +709,7 @@
                                             </connections>
                                         </button>
                                         <popUpButton verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WkT-cB-Pxj">
-                                            <rect key="frame" x="191" y="14" width="84" height="26"/>
+                                            <rect key="frame" x="191" y="46" width="84" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="fNo-5F-LPn">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -725,7 +725,7 @@
                                             </connections>
                                         </popUpButton>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bul-iY-prQ">
-                                            <rect key="frame" x="277" y="20" width="107" height="17"/>
+                                            <rect key="frame" x="277" y="52" width="107" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="in the status bar" id="0yj-SE-bje">
                                                 <font key="font" metaFont="system"/>
@@ -733,8 +733,8 @@
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RTc-9t-UFf">
-                                            <rect key="frame" x="114" y="58" width="153" height="17"/>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RTc-9t-UFf">
+                                            <rect key="frame" x="114" y="85" width="153" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="to display temperatures" id="ZyD-SM-dRz">
                                                 <font key="font" metaFont="system"/>
@@ -742,10 +742,25 @@
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
+                                        <button translatesAutoresizingMaskIntoConstraints="NO" id="wNy-G9-mJ2">
+                                            <rect key="frame" x="18" y="18" width="268" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="264" id="E1A-94-w5O"/>
+                                                <constraint firstAttribute="height" constant="14" id="Nmk-DX-lPe"/>
+                                            </constraints>
+                                            <buttonCell key="cell" type="check" title="Start app automatically when you login" bezelStyle="regularSquare" imagePosition="left" inset="2" id="YgF-Nk-g2I">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="preferencesStartAtLogin:" target="494" id="7VW-0T-nrN"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="WkT-cB-Pxj" secondAttribute="bottom" constant="22" id="1CO-VL-q1L"/>
-                                        <constraint firstItem="mL3-S1-1Ra" firstAttribute="top" secondItem="79L-98-2MC" secondAttribute="bottom" constant="21" id="2fz-ws-mCb"/>
+                                        <constraint firstItem="mL3-S1-1Ra" firstAttribute="top" secondItem="79L-98-2MC" secondAttribute="bottom" constant="16" id="2fz-ws-mCb"/>
+                                        <constraint firstAttribute="bottom" secondItem="wNy-G9-mJ2" secondAttribute="bottom" constant="20" id="6Nr-EX-sZ0"/>
                                         <constraint firstItem="bul-iY-prQ" firstAttribute="leading" secondItem="WkT-cB-Pxj" secondAttribute="trailing" constant="7" id="8ca-Gt-K0v"/>
                                         <constraint firstItem="WkT-cB-Pxj" firstAttribute="leading" secondItem="mL3-S1-1Ra" secondAttribute="trailing" constant="5" id="A6z-l0-aF8"/>
                                         <constraint firstItem="mL3-S1-1Ra" firstAttribute="leading" secondItem="WWe-4V-epN" secondAttribute="leading" constant="20" id="EpE-h2-EwK"/>
@@ -753,8 +768,10 @@
                                         <constraint firstItem="79L-98-2MC" firstAttribute="top" secondItem="WWe-4V-epN" secondAttribute="top" constant="20" id="NQ0-Vg-04e"/>
                                         <constraint firstItem="RTc-9t-UFf" firstAttribute="top" secondItem="WWe-4V-epN" secondAttribute="top" constant="22" id="Ofl-ur-dY7"/>
                                         <constraint firstItem="PPc-AF-gKa" firstAttribute="top" relation="greaterThanOrEqual" secondItem="WWe-4V-epN" secondAttribute="top" constant="22" id="UcC-9K-PIh"/>
-                                        <constraint firstItem="WkT-cB-Pxj" firstAttribute="top" secondItem="RTc-9t-UFf" secondAttribute="bottom" constant="20" id="Uir-Wt-ifE"/>
+                                        <constraint firstItem="WkT-cB-Pxj" firstAttribute="top" secondItem="RTc-9t-UFf" secondAttribute="bottom" constant="15" id="Uir-Wt-ifE"/>
+                                        <constraint firstItem="wNy-G9-mJ2" firstAttribute="leading" secondItem="WWe-4V-epN" secondAttribute="leading" constant="20" id="VLx-VO-MrL"/>
                                         <constraint firstItem="mL3-S1-1Ra" firstAttribute="baseline" secondItem="bul-iY-prQ" secondAttribute="baseline" id="cWU-B2-Wjf"/>
+                                        <constraint firstItem="wNy-G9-mJ2" firstAttribute="top" secondItem="WkT-cB-Pxj" secondAttribute="bottom" constant="15" id="goY-Bt-jFf"/>
                                         <constraint firstItem="RTc-9t-UFf" firstAttribute="leading" secondItem="79L-98-2MC" secondAttribute="trailing" constant="8" id="j8f-oe-dvd"/>
                                         <constraint firstItem="PPc-AF-gKa" firstAttribute="leading" secondItem="WWe-4V-epN" secondAttribute="leading" constant="20" id="lnZ-i6-DAf"/>
                                         <constraint firstItem="PPc-AF-gKa" firstAttribute="top" secondItem="WWe-4V-epN" secondAttribute="top" constant="22" id="oHg-Vz-9yH"/>
@@ -1122,6 +1139,7 @@
                 <outlet property="preferencesClientSecretStatus" destination="DGq-5X-D6R" id="FYz-We-etg"/>
                 <outlet property="preferencesDisconnect" destination="OoH-do-yHe" id="3aL-MX-RkG"/>
                 <outlet property="preferencesShowTemperatureInStatusBar" destination="mL3-S1-1Ra" id="gnY-sI-sdG"/>
+                <outlet property="preferencesStartAtLogin" destination="wNy-G9-mJ2" id="AgM-jB-Dxz"/>
                 <outlet property="preferencesTemperatureScale" destination="79L-98-2MC" id="ZkO-4r-Ep3"/>
                 <outlet property="preferencesTemperatureSensor" destination="WkT-cB-Pxj" id="voM-pv-M6v"/>
                 <outlet property="preferencesToolbar" destination="DBK-ud-UUH" id="Edc-C6-iaZ"/>

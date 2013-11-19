@@ -9,6 +9,9 @@
     // Settings
     self.settings = [[AKSettings alloc] init];
     
+    // Launch
+    self.launch = [[AKLaunchItem alloc] init];
+    
     // Setup
     self.items = [[NSMutableArray alloc] init];
     self.preferencesTemperatureSensorTitleToId = [[NSMutableDictionary alloc] init];
@@ -158,13 +161,20 @@
     [self.statusMenu removeAllItems];
     
     // If we're not showing the temperature in the status bar, show it in the menu
-    if (![self.settings showTemperatureInCelsius])
+    if (![self.settings showTemperatureInStatusBar] && [self temperaturesForDisplay] != nil)
     {
         
-        [self.statusMenu addItem: [[NSMenuItem alloc] initWithTitle: [self temperatureInScale]
-                                                             action: nil
-                                                      keyEquivalent: @""]];
-     
+        for (NSDictionary *temperature in [self temperaturesForDisplay]) {
+            
+            
+            
+            [self.statusMenu addItem: [[NSMenuItem alloc] initWithTitle: [NSString stringWithFormat: @"%@ – %@", [temperature objectForKey: @"temperature"], [temperature objectForKey: @"name"] ]
+                                                                 action: nil
+                                                          keyEquivalent: @""]];
+            
+            
+        }
+
         [self.statusMenu addItem: [NSMenuItem separatorItem]];
         
     }
@@ -239,6 +249,47 @@
         [self.statusItem setAlternateImage: [NSImage imageNamed: @"StatusBarItemAlt"]];
         
     }
+    
+}
+
+- (NSArray *)temperaturesForDisplay
+{
+    NSMutableArray *temperatures = [[NSMutableArray alloc] init];
+    
+    // If we don't have any temperatures yet
+    if (self.temperatures == nil)
+    {
+        return nil;
+    }
+
+    // Each temperature
+    for (NSDictionary *sensor in self.temperatures) {
+        
+        NSNumber *temperatureNumber = [sensor objectForKey: @"value"];
+        
+        if (temperatureNumber == nil)
+        {
+            continue;
+        }
+            
+        // Convert to long
+        long temperature = [temperatureNumber longValue];
+        
+        // Convert to celsius if requested
+        if ([self.settings showTemperatureInCelsius])
+        {
+            temperature = (temperature - 32) * (5.0 / 9.0);
+        }
+        
+        // Add a dictionary to our array
+        [temperatures addObject: [NSDictionary dictionaryWithObjectsAndKeys:
+                                  [NSString stringWithFormat: @"%ld°", temperature], @"temperature",
+                                  [sensor objectForKey: @"name"], @"name",
+                                  nil]];
+
+    }
+
+    return temperatures;
     
 }
 
@@ -328,8 +379,6 @@
 /*! Request an update from server */
 - (void) requestUpdateFromServer
 {
-    
-    NSLog(@"Checking with %@", self.settings.accessToken);
 
     if (self.settings.accessToken)
     {
@@ -497,6 +546,14 @@
         
     }
 
+    // Start at login?
+    if ([self.launch loginItemExists])
+    {
+        [self.preferencesStartAtLogin setState: NSOnState];
+    } else {
+        [self.preferencesStartAtLogin setState: NSOffState];
+    }
+        
     /***************
      | Account Tab *
      **************/
@@ -683,6 +740,20 @@
     [self refreshInterface];
 }
 
+- (IBAction)preferencesStartAtLogin:(NSButton *)sender {
+
+    if ([sender state] == NSOffState)
+    {
+        [self.launch removeLoginItem];
+    } else {
+        [self.launch addLoginItem];
+    }
+
+    
+    
+}
+
+
 - (IBAction)preferencesViewAbout:(NSButton *)sender {
     [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: @"https://github.com/alexking/StatusThing/wiki/About-Page"]];
 }
@@ -695,6 +766,7 @@
     [[NSStatusBar systemStatusBar] removeStatusItem: self.statusItem];
     
 }
+
 
 
 @end
