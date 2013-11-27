@@ -33,6 +33,7 @@
     self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength: NSVariableStatusItemLength];
     [self.statusItem setHighlightMode: YES];
     
+    
     // Setup the menu for the status bar item
     self.statusMenu = [[NSMenu alloc] initWithTitle: @"Menu"];
     [self.statusItem setMenu: self.statusMenu];
@@ -93,7 +94,7 @@
             
             [self requestUpdateFromServer];
             [self clearPreferences];
-            [self refreshInterface];
+            [self forceRefreshInterface];
         }
         
     }];
@@ -128,6 +129,13 @@
     
 }
 
+- (void) forceRefreshInterface
+{
+    [self forceRefreshMenu];
+    [self refreshStatusItem];
+    [self refreshPreferences];
+}
+
 - (void) refreshInterface
 {
     [self refreshMenu];
@@ -135,9 +143,54 @@
     [self refreshPreferences];
 }
 
+- (void) statusMenuSeparatorItemWithTag: (NSUInteger)tag atPosition: (NSUInteger)position shouldExist: (BOOL)shouldExist
+{
+    
+    // Add
+    if (shouldExist)
+    {
+        
+        if ([self.statusMenu itemWithTag: tag] == nil)
+        {
+            
+            // Preferences separator [NSMenuItem separatorItem]
+            NSMenuItem *betweenItemsAndPreferences = [NSMenuItem separatorItem];
+            
+            [betweenItemsAndPreferences setTag: tag];
+            
+            [self.statusMenu insertItem: betweenItemsAndPreferences atIndex: position];
+            
+        }
+        
+        position++;
+      
+    // Remove
+    } else {
+        
+        NSMenuItem *removeIfExists = [self.statusMenu itemWithTag: tag];
+        if (removeIfExists != nil)
+        {
+            [self.statusMenu removeItem: removeIfExists];
+        }
+        
+    }
+    
+
+    
+}
+
 /*! Handle menu building */
+- (void) forceRefreshMenu {
+    
+    [self.statusMenu removeAllItems];
+    
+    [self refreshMenu];
+    
+}
+
 - (void) refreshMenu {
 
+    
     // We may want to give up on the menu before we start
     if (self.items == nil || [self.items count] == 0)
     {
@@ -157,73 +210,163 @@
         
     }
     
-    // Remove existing items
-    [self.statusMenu removeAllItems];
+    // Keep track of where we are, move forward when we
+    // create an item or confirm an item exists
+    NSUInteger position = 0;
     
     // If we're not showing the temperature in the status bar, show it in the menu
     if (![self.settings showTemperatureInStatusBar] && [self temperaturesForDisplay] != nil)
     {
-        
-        for (NSDictionary *temperature in [self temperaturesForDisplay]) {
+        NSArray *temperatures = [self temperaturesForDisplay];
+        for (NSDictionary *temperature in temperatures) {
             
+            // Find a possible item
+            NSMenuItem *temperatureItem = [self.statusMenu itemWithTag: 200 + [temperatures indexOfObject: temperature]];
             
+            // Find the string we need
+            NSString *temperatureTitle = [NSString stringWithFormat: @"%@ – %@", [temperature objectForKey: @"temperature"], [temperature objectForKey: @"name"] ];
             
-            [self.statusMenu addItem: [[NSMenuItem alloc] initWithTitle: [NSString stringWithFormat: @"%@ – %@", [temperature objectForKey: @"temperature"], [temperature objectForKey: @"name"] ]
-                                                                 action: nil
-                                                          keyEquivalent: @""]];
+            // Add it if it doesn't exist
+            if (temperatureItem == nil)
+            {
+                
+                temperatureItem = [[NSMenuItem alloc] initWithTitle: temperatureTitle
+                                           action: nil
+                                    keyEquivalent: @""];
+                
+                [self.statusMenu insertItem: temperatureItem atIndex: position];
             
+            } else {
+                
+                [temperatureItem setTitle: temperatureTitle];
+                
+            }
             
+            position ++;
+
         }
-
-        [self.statusMenu addItem: [NSMenuItem separatorItem]];
         
+        
+        [self statusMenuSeparatorItemWithTag: 300 atPosition: position shouldExist: YES];
+        position ++;
     }
-     
-    // Add items
-    for (NSDictionary *item in self.items) {
+    
+    // Items
+    for (NSDictionary *item in self.items)
+    {
         
-        NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle: [item objectForKey: @"label"]
-                                                          action: @selector(itemClick:)
-                                                   keyEquivalent: @""];
+        NSUInteger itemTag = (100 + [self.items indexOfObject: item]);
         
-
+        // Does this item already exist?
+        NSMenuItem *itemMenuItem = [self.statusMenu itemWithTag: itemTag];
+        
+        // Create a new one if it doesn't exist
+        if (itemMenuItem == nil)
+        {
+            
+            // Create the item
+            itemMenuItem = [[NSMenuItem alloc] initWithTitle: [item objectForKey: @"label"]
+                                                      action: @selector(itemClick:)
+                                               keyEquivalent: @""];
+            
+            // Set the tag
+            [itemMenuItem setTag: itemTag];
+            
+            // Add the item
+            [self.statusMenu insertItem: itemMenuItem atIndex: position];
+        }
+        
         // Set the on off status
         if ([[item objectForKey: @"status"] isEqualToString: @"on"])
         {
-            [menuItem setState: NSOnState];
+            [itemMenuItem setState: NSOnState];
+        } else {
+            [itemMenuItem setState: NSOffState];
         }
-  
         
-        [menuItem setTag: (100 + [self.items indexOfObject: item]) ];
+        // Move forward
+        position++;
         
-        [self.statusMenu addItem: menuItem];
     }
     
+    // Separator
+    int betweenItemsAndPreferencesTag = 1;
     if ([self.items count] > 0)
     {
+
+        if ([self.statusMenu itemWithTag: betweenItemsAndPreferencesTag] == nil)
+        {
         
-        // Preferences
-        [self.statusMenu addItem: [NSMenuItem separatorItem]];
+            // Preferences separator [NSMenuItem separatorItem]
+            NSMenuItem *betweenItemsAndPreferences = [NSMenuItem separatorItem];
+            
+            [betweenItemsAndPreferences setTag: betweenItemsAndPreferencesTag];
+            
+            [self.statusMenu insertItem: betweenItemsAndPreferences atIndex: position];
+            
+        }
+            
+        position++;
+        
+    } else {
+        
+        // Remove it
+        NSMenuItem *removeIfExists = [self.statusMenu itemWithTag: betweenItemsAndPreferencesTag];
+        if (removeIfExists != nil)
+        {
+            [self.statusMenu removeItem: removeIfExists];
+        }
         
     }
     
+    // Preferences
+    int preferencesTag = 2;
+    if ([self.statusMenu itemWithTag: preferencesTag] == nil)
+    {
+        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle: @"Preferences..."
+                                                      action: @selector(showPreferences)
+                                               keyEquivalent: @","];
+        
+        [item setTag: preferencesTag];
+        
+        [item setKeyEquivalentModifierMask: NSCommandKeyMask];
+        
+        [self.statusMenu insertItem: item atIndex: position];
+       
+    }
+    
+    position ++;
+   
+    
+    // Quit Separator
+    int quitSeparatorTag = 3;
+    if ([self.statusMenu itemWithTag: quitSeparatorTag] == nil)
+    {
+        NSMenuItem *quitSeparator = [NSMenuItem separatorItem];
+        [quitSeparator setTag: quitSeparatorTag];
+        
+        [self.statusMenu insertItem: quitSeparator atIndex: position];
+    }
   
-    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle: @"Preferences..."
-                                                         action: @selector(showPreferences)
-                                                  keyEquivalent: @","];
-    
-    [item setKeyEquivalentModifierMask: NSCommandKeyMask];
-    
-    [self.statusMenu addItem: item];
+    position ++;
     
     // Quit
-    [self.statusMenu addItem: [NSMenuItem separatorItem]];
+    int quitTag = 4;
+    if ([self.statusMenu itemWithTag: quitTag] == nil)
+    {
+        
+        NSMenuItem *quit = [[NSMenuItem alloc] initWithTitle: @"Quit"
+                                                      action: @selector(terminate:)
+                                               keyEquivalent: @"q"];
+        
+        [quit setTag: quitTag];
+        
+        [self.statusMenu insertItem: quit atIndex: position];
+        
+    }
     
-    NSMenuItem *quit = [[NSMenuItem alloc] initWithTitle: @"Quit"
-                                                  action: @selector(terminate:)
-                                           keyEquivalent: @"q"];
+    position ++;
     
-    [self.statusMenu addItem: quit];
 
 
 }
@@ -610,7 +753,7 @@
     self.temperatures = nil;
     self.items = nil;
     
-    [self refreshInterface];
+    [self forceRefreshMenu];
 
 }
 
@@ -719,7 +862,7 @@
 {
     [self.settings setShowTemperatureInStatusBar: [sender integerValue]];
     
-    [self refreshInterface];
+    [self forceRefreshInterface];
     
 }
 
@@ -728,7 +871,7 @@
     
     [self.settings setShowTemperatureInCelsius: [[sender selectedItem] tag]];
 
-    [self refreshInterface];
+    [self forceRefreshInterface];
     
 }
 
@@ -737,7 +880,7 @@
     
     self.settings.temperatureId = [self.preferencesTemperatureSensorTitleToId objectForKey: [[sender selectedItem] title]];
     
-    [self refreshInterface];
+    [self forceRefreshInterface];
 }
 
 - (IBAction)preferencesStartAtLogin:(NSButton *)sender {
