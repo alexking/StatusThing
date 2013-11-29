@@ -4,8 +4,9 @@
 #import <CocoaHTTPServer/HTTPServer.h>
 #import "AKSettings.h"
 #import "AKLaunchItem.h"
+#import "AKStatusItemView.h"
 
-@interface AKAppDelegate : NSObject <NSApplicationDelegate, AKSmartThingsDelegate, NSTextDelegate>
+@interface AKAppDelegate : NSObject <NSApplicationDelegate, AKSmartThingsDelegate, NSTextDelegate, AKStatusItemViewDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
 
@@ -13,14 +14,14 @@
 @property (strong) AKSmartThings *things;
 @property (strong) AKSettings *settings;
 @property (strong) AKLaunchItem *launch; 
+@property (strong) AKStatusItemView *statusItemView; 
 
 // State management
 @property NSMutableArray *items;
 @property NSMutableArray *temperatures; 
 @property NSNumber *selectedTemperatureId;
 
-//@property (nonatomic) NSString *clientId;
-//@property NSString *clientSecret;
+@property bool updateFromServerInProgress;
 
 // Interface Items
 @property NSStatusItem *statusItem;
@@ -33,6 +34,8 @@
 @property NSTimer *timer;
 
 -(void)controlTextDidChange:(NSNotification*)aNotification;
+
+- (void)mouseEnteredWithEvent:(NSEvent *)event;
 
 // Preferences
 - (IBAction)authorizeButton:(id)sender;

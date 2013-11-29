@@ -37,6 +37,11 @@
     // Setup the menu for the status bar item
     self.statusMenu = [[NSMenu alloc] initWithTitle: @"Menu"];
     [self.statusItem setMenu: self.statusMenu];
+   
+    // Use a custom view so we can preload data on mouse over
+    self.statusItemView = [[AKStatusItemView alloc] initWithStatusItem: self.statusItem];
+    [self.statusItemView setDelegate: self];
+    [self.statusItem setView: self.statusItemView];
     
     // Load preferences
     [self loadPreferences];
@@ -220,8 +225,10 @@
         NSArray *temperatures = [self temperaturesForDisplay];
         for (NSDictionary *temperature in temperatures) {
             
+            NSUInteger temperatureTag = 200 + [temperatures indexOfObject: temperature];
+            
             // Find a possible item
-            NSMenuItem *temperatureItem = [self.statusMenu itemWithTag: 200 + [temperatures indexOfObject: temperature]];
+            NSMenuItem *temperatureItem = [self.statusMenu itemWithTag: temperatureTag];
             
             // Find the string we need
             NSString *temperatureTitle = [NSString stringWithFormat: @"%@ – %@", [temperature objectForKey: @"temperature"], [temperature objectForKey: @"name"] ];
@@ -233,6 +240,8 @@
                 temperatureItem = [[NSMenuItem alloc] initWithTitle: temperatureTitle
                                            action: nil
                                     keyEquivalent: @""];
+                
+                [temperatureItem setTag: temperatureTag];
                 
                 [self.statusMenu insertItem: temperatureItem atIndex: position];
             
@@ -378,18 +387,14 @@
     // Show the temperature
     if ([self.settings showTemperatureInStatusBar])
     {
-        
-        [self.statusItem setImage: nil];
-        [self.statusItem setAlternateImage: nil];
-        
-        [self.statusItem setTitle: [self temperatureInScale]];
+
+        self.statusItemView.showIcon = NO;
+        self.statusItemView.title    = [self temperatureInScale];
         
     // Show the icon
     } else {
         
-        [self.statusItem setTitle: nil];
-        [self.statusItem setImage: [NSImage imageNamed: @"StatusBarItem"]];
-        [self.statusItem setAlternateImage: [NSImage imageNamed: @"StatusBarItemAlt"]];
+        self.statusItemView.showIcon = YES;
         
     }
     
@@ -514,6 +519,15 @@
     
 }
 
+- (void)mouseEnteredWithEvent:(NSEvent *)event
+{
+    if (!self.updateFromServerInProgress)
+    {
+        [self requestUpdateFromServer];
+    }
+
+}
+
 - (void) debugFound: (id)json
 {
     NSLog(@"Debug: %@", json);
@@ -526,6 +540,8 @@
     if (self.settings.accessToken)
     {
     
+        self.updateFromServerInProgress = YES;
+        
         [self.things getJSONFor: @"updateItemsAndTemperature" withCallback: @selector(itemsAndTemperatureFound:)];
         
     }
@@ -535,6 +551,8 @@
 /*! Update the interface from SmartThings */
 - (void) itemsAndTemperatureFound: (id) json
 {
+    
+    self.updateFromServerInProgress = NO;
 
     NSArray *items = [json objectForKey: @"items"];
     self.temperatures = [json objectForKey: @"temperatures" ];

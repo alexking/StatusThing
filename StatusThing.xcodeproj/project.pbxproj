@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		640418301845BCF800570C25 /* AKStatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6404182F1845BCF800570C25 /* AKStatusItemView.m */; };
 		6415A5A6182F4E1300EEBAA2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6415A5A5182F4E1300EEBAA2 /* Cocoa.framework */; };
 		6415A5B2182F4E1300EEBAA2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6415A5B1182F4E1300EEBAA2 /* main.m */; };
 		6415A5B9182F4E1300EEBAA2 /* AKAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6415A5B8182F4E1300EEBAA2 /* AKAppDelegate.m */; };
@@ -49,6 +50,8 @@
 
 /* Begin PBXFileReference section */
 		19E9432CA91C494DA4F25F6D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		6404182E1845BCF800570C25 /* AKStatusItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AKStatusItemView.h; sourceTree = "<group>"; };
+		6404182F1845BCF800570C25 /* AKStatusItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AKStatusItemView.m; sourceTree = "<group>"; };
 		6415A5A2182F4E1300EEBAA2 /* StatusThing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatusThing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6415A5A5182F4E1300EEBAA2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6415A5A8182F4E1300EEBAA2 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -155,6 +158,8 @@
 				64B497C91839D035007BB1D0 /* AKLaunchItem.m */,
 				6415A5B7182F4E1300EEBAA2 /* AKAppDelegate.h */,
 				6415A5B8182F4E1300EEBAA2 /* AKAppDelegate.m */,
+				6404182E1845BCF800570C25 /* AKStatusItemView.h */,
+				6404182F1845BCF800570C25 /* AKStatusItemView.m */,
 				6415A5BA182F4E1300EEBAA2 /* MainMenu.xib */,
 				6415A5BD182F4E1300EEBAA2 /* Images.xcassets */,
 				6415A5AC182F4E1300EEBAA2 /* Supporting Files */,
@@ -346,6 +351,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				640418301845BCF800570C25 /* AKStatusItemView.m in Sources */,
 				6415A5B9182F4E1300EEBAA2 /* AKAppDelegate.m in Sources */,
 				64490A881832AF6F006F8D10 /* AKSettings.m in Sources */,
 				6415A5B2182F4E1300EEBAA2 /* main.m in Sources */,
