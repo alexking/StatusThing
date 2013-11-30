@@ -53,7 +53,7 @@
     } else {
         
         NSSize s = [self.title sizeWithAttributes: [self stringAttributes]];
-        [self setFrameSize: NSMakeSize( ((int) s.width) + 12, 22)];
+        [self setFrameSize: NSMakeSize( ((int) s.width) + 12 + 6, 22)];
         
     }
     
@@ -126,15 +126,19 @@
         
         [context saveGraphicsState];
         
+        NSCompositingOperation imageComposite = NSCompositeSourceOver;
         if (!self.menuIsVisible)
         {
             [context setCompositingOperation: NSCompositeClear];
+            imageComposite = NSCompositeDestinationOut;
         }
         
         [self.title drawInRect: NSMakeRect(6.0, -1.0, [self frame].size.width, [self frame].size.height ) withAttributes: textFormatting];
         
+        NSImage *degree = [NSImage imageNamed: @"degree"];
+        [degree drawAtPoint: NSMakePoint((self.frame.size.width - 10.0), 13.0 ) fromRect: NSZeroRect operation: imageComposite fraction: 1.0];
+        
         [context restoreGraphicsState];
-
         
     }
  

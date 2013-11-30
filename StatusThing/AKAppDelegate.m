@@ -388,7 +388,7 @@
     {
 
         self.statusItemView.showIcon = NO;
-        self.statusItemView.title    = [self temperatureInScale];
+        self.statusItemView.title    = [self temperatureInScaleWithDegree: NO];
         
     // Show the icon
     } else {
@@ -442,14 +442,31 @@
 
 - (NSString *) temperatureInScale
 {
+    return [self temperatureInScaleWithDegree: YES];
+}
+
+- (NSString *) temperatureInScaleWithDegree: (BOOL)showDegree
+{
+    
+    // Find the placeholder
+    NSString *placeholder;
+    NSString *degree;
+    
+    if (showDegree) {
+        degree = @"°";
+        placeholder = @"--°";
+    } else {
+        degree = @"";
+        placeholder = @"--";
+    }
     
     // If we don't have any temperatures yet
     if (self.temperatures == nil)
     {
         
         // Display a placeholder
-        return @"--°";
-        
+        return placeholder;
+            
     }
     
     // Look for the temperature
@@ -482,7 +499,7 @@
     // If we still don't have anything, whatever we do, don't show crazy long values
     if (temperatureNumber == nil)
     {
-        return @"--°";
+        return placeholder;
     }
     
     // Convert to long
@@ -494,7 +511,7 @@
         temperature = (temperature - 32) * (5.0 / 9.0);
     }
     
-    return [NSString stringWithFormat: @"%ld°", temperature];
+    return [NSString stringWithFormat: @"%ld%@", temperature, degree];
     
 
 
