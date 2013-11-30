@@ -56,7 +56,6 @@
         [self.preferencesToolbar setSelectedItemIdentifier: @"general"];
         [self.preferenceTabs selectTabViewItemWithIdentifier: @"general"];
      
-        
     }
     else
     {

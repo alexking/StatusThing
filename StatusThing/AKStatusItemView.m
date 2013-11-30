@@ -64,8 +64,9 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-
 	[super drawRect:dirtyRect];
+ 
+    NSGraphicsContext *context = [NSGraphicsContext currentContext];
     
     // Handle the blue background
     // If the menu is open, then display our blue/white/black scheme
@@ -111,7 +112,10 @@
                                                            xRadius: 3.0
                                                            yRadius: 3.0];
         
+        
+        
         [bg fill];
+        
         
         if (self.menuIsVisible)
         {
@@ -120,7 +124,17 @@
             [[NSColor blackColor] set];
         }
         
+        [context saveGraphicsState];
+        
+        if (!self.menuIsVisible)
+        {
+            [context setCompositingOperation: NSCompositeClear];
+        }
+        
         [self.title drawInRect: NSMakeRect(6.0, -1.0, [self frame].size.width, [self frame].size.height ) withAttributes: textFormatting];
+        
+        [context restoreGraphicsState];
+
         
     }
  
