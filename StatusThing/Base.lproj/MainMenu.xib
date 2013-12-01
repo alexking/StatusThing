@@ -1010,11 +1010,11 @@
                             </tabViewItem>
                             <tabViewItem label="updates" identifier="updates" id="dNs-Tq-Wz9">
                                 <view key="view" id="wf9-sK-ifX">
-                                    <rect key="frame" x="0.0" y="0.0" width="497" height="98"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="497" height="124"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BXr-Ry-V78">
-                                            <rect key="frame" x="181" y="22" width="77" height="25"/>
+                                            <rect key="frame" x="181" y="48" width="77" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="77" id="N9N-nc-cjD"/>
@@ -1025,11 +1025,11 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="preferencesViewAbout:" target="494" id="wSO-dJ-l0D"/>
+                                                <action selector="orderFrontStandardAboutPanel:" target="-2" id="hzs-ci-dlR"/>
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e6K-N4-sRg">
-                                            <rect key="frame" x="20" y="22" width="153" height="25"/>
+                                            <rect key="frame" x="20" y="48" width="153" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="153" id="GhY-vC-Zsi"/>
@@ -1044,7 +1044,7 @@
                                             </connections>
                                         </button>
                                         <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mCj-dt-y0h">
-                                            <rect key="frame" x="18" y="64" width="225" height="18"/>
+                                            <rect key="frame" x="18" y="90" width="225" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="14" id="lfz-wJ-B0k"/>
@@ -1058,7 +1058,7 @@
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iJy-Zc-z2g">
-                                            <rect key="frame" x="345" y="22" width="132" height="29"/>
+                                            <rect key="frame" x="345" y="48" width="132" height="29"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="132" id="GZB-s6-utb"/>

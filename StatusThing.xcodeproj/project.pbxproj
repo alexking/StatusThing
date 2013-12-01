@@ -22,6 +22,7 @@
 		64B497C5183737F8007BB1D0 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 64B497C1183735DD007BB1D0 /* Sparkle.framework */; };
 		64B497C718373E5D007BB1D0 /* sparkle-public-key.pem in Resources */ = {isa = PBXBuildFile; fileRef = 64B497C618373E5D007BB1D0 /* sparkle-public-key.pem */; };
 		64B497CA1839D035007BB1D0 /* AKLaunchItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 64B497C91839D035007BB1D0 /* AKLaunchItem.m */; };
+		64DE5064184ACCB9004446E1 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 64DE5063184ACCB9004446E1 /* Credits.rtf */; };
 		B69F5283100C4CBD930BB43F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABA0628C4E3D4093B823CE66 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +82,7 @@
 		64B497C618373E5D007BB1D0 /* sparkle-public-key.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "sparkle-public-key.pem"; sourceTree = "<group>"; };
 		64B497C81839D035007BB1D0 /* AKLaunchItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AKLaunchItem.h; sourceTree = "<group>"; };
 		64B497C91839D035007BB1D0 /* AKLaunchItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AKLaunchItem.m; sourceTree = "<group>"; };
+		64DE5063184ACCB9004446E1 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; name = Credits.rtf; path = ../Credits.rtf; sourceTree = "<group>"; };
 		ABA0628C4E3D4093B823CE66 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -170,6 +172,7 @@
 		6415A5AC182F4E1300EEBAA2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				64DE5063184ACCB9004446E1 /* Credits.rtf */,
 				64B497C618373E5D007BB1D0 /* sparkle-public-key.pem */,
 				6415A5AD182F4E1300EEBAA2 /* StatusThing-Info.plist */,
 				6415A5B1182F4E1300EEBAA2 /* main.m */,
@@ -300,6 +303,7 @@
 				6415A5BE182F4E1300EEBAA2 /* Images.xcassets in Resources */,
 				64B497C718373E5D007BB1D0 /* sparkle-public-key.pem in Resources */,
 				6415A5BC182F4E1300EEBAA2 /* MainMenu.xib in Resources */,
+				64DE5064184ACCB9004446E1 /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
