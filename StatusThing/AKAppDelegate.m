@@ -31,6 +31,7 @@
     
     // Setup our status bar item
     self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength: NSVariableStatusItemLength];
+    
     [self.statusItem setHighlightMode: YES];
     
     
@@ -230,15 +231,15 @@
             NSMenuItem *temperatureItem = [self.statusMenu itemWithTag: temperatureTag];
             
             // Find the string we need
-            NSString *temperatureTitle = [NSString stringWithFormat: @"%@ – %@", [temperature objectForKey: @"temperature"], [temperature objectForKey: @"name"] ];
+            NSString *temperatureTitle = [NSString stringWithFormat: @"%@ – %@", temperature[@"temperature"], temperature[@"name"] ];
             
             // Add it if it doesn't exist
             if (temperatureItem == nil)
             {
                 
                 temperatureItem = [[NSMenuItem alloc] initWithTitle: temperatureTitle
-                                           action: nil
-                                    keyEquivalent: @""];
+                                                             action: nil
+                                                      keyEquivalent: @""];
                 
                 [temperatureItem setTag: temperatureTag];
                 
@@ -273,7 +274,7 @@
         {
             
             // Create the item
-            itemMenuItem = [[NSMenuItem alloc] initWithTitle: [item objectForKey: @"label"]
+            itemMenuItem = [[NSMenuItem alloc] initWithTitle: item[@"label"]
                                                       action: @selector(itemClick:)
                                                keyEquivalent: @""];
             
@@ -285,7 +286,7 @@
         }
         
         // Set the on off status
-        if ([[item objectForKey: @"status"] isEqualToString: @"on"])
+        if ([item[@"status"] isEqualToString: @"on"])
         {
             [itemMenuItem setState: NSOnState];
         } else {
@@ -389,8 +390,8 @@
 
         self.statusItemView.showIcon = NO;
         self.statusItemView.title    = [self temperatureInScaleWithDegree: NO];
-        
-    // Show the icon
+
+        // Show the icon
     } else {
         
         self.statusItemView.showIcon = YES;
@@ -412,7 +413,7 @@
     // Each temperature
     for (NSDictionary *sensor in self.temperatures) {
         
-        NSNumber *temperatureNumber = [sensor objectForKey: @"value"];
+        NSNumber *temperatureNumber = sensor[@"value"];
         
         if (temperatureNumber == nil)
         {
@@ -429,10 +430,8 @@
         }
         
         // Add a dictionary to our array
-        [temperatures addObject: [NSDictionary dictionaryWithObjectsAndKeys:
-                                  [NSString stringWithFormat: @"%ld°", temperature], @"temperature",
-                                  [sensor objectForKey: @"name"], @"name",
-                                  nil]];
+        [temperatures addObject: @{ @"temperature": [NSString stringWithFormat: @"%ld°", temperature],
+                                    @"name": sensor[@"name"] } ];
 
     }
 
@@ -480,9 +479,9 @@
 
         for (NSDictionary *sensor in self.temperatures) {
             
-            if ([[sensor objectForKey: @"id"] isEqualToString: sensorId])
+            if ([sensor[@"id"] isEqualToString: sensorId])
             {
-                temperatureNumber = [sensor objectForKey: @"value"];
+                temperatureNumber = sensor[@"value"];
                 continue;
             }
             
@@ -493,7 +492,7 @@
     // If temperature number is still nil, then just use the first object
     if (temperatureNumber == nil)
     {
-        temperatureNumber = [[self.temperatures firstObject] objectForKey: @"value"];
+        temperatureNumber = [self.temperatures firstObject][@"value"];
     }
     
     // If we still don't have anything, whatever we do, don't show crazy long values
@@ -570,19 +569,17 @@
     
     self.updateFromServerInProgress = NO;
 
-    NSArray *items = [json objectForKey: @"items"];
-    self.temperatures = [json objectForKey: @"temperatures" ];
+    NSArray *items = json[@"items"];
+    self.temperatures = json[@"temperatures"];
     
     NSMutableArray *allItems = [[NSMutableArray alloc] init];
     
     for (NSDictionary *item in items) {
 
         // Save the items for building menus later
-        [allItems addObject: [NSDictionary dictionaryWithObjectsAndKeys:
-                                [item objectForKey: @"id"],    @"id",
-                                [item objectForKey: @"name"],  @"label",
-                                [item objectForKey: @"state"], @"status",
-                                nil]];
+        [allItems addObject: @{ @"id"     : item[@"id"],
+                                @"label"  : item[@"name"],
+                                @"status" : item[@"state"] }];
         
     }
     
@@ -600,15 +597,15 @@
 - (void) itemClick: (NSMenuItem *) sender
 {
     
-    NSDictionary *item = [self.items objectAtIndex: ([sender tag] - 100)];
+    NSDictionary *item = (self.items)[([sender tag] - 100)];
     
     // Find the item ID
-    NSString *itemId = [item objectForKey: @"id"];
+    NSString *itemId = item[@"id"];
     
     // Toggle the state
     NSString *itemState;
     
-    if ([[item objectForKey: @"status"] isEqualToString: @"off"]) {
+    if ([item[@"status"] isEqualToString: @"off"]) {
         
         itemState = @"on";
     
@@ -699,7 +696,7 @@
             
             // Check if there are any items with this name already
             int tries = 0;
-            NSString *sensorName = [sensor objectForKey: @"name"];
+            NSString *sensorName = sensor[@"name"];
             NSString *displayName = sensorName;
             
             while ([self.preferencesTemperatureSensor itemWithTitle: displayName]) {
@@ -711,10 +708,10 @@
             [self.preferencesTemperatureSensor addItemWithTitle: displayName];
             
             // Add it to the lookup dictionary
-            [self.preferencesTemperatureSensorTitleToId setObject: [sensor objectForKey: @"id"] forKey:displayName];
+            (self.preferencesTemperatureSensorTitleToId)[displayName] = sensor[@"id"];
             
             // If this is our item, select it
-            if ([self.settings.temperatureId isEqualToString: [sensor objectForKey: @"id"]])
+            if ([self.settings.temperatureId isEqualToString: sensor[@"id"]])
             {
                 [self.preferencesTemperatureSensor selectItemWithTitle: displayName];
             }
@@ -912,7 +909,7 @@
 - (IBAction)preferencesTemperatureSensor:(NSPopUpButton *)sender
 {
     
-    self.settings.temperatureId = [self.preferencesTemperatureSensorTitleToId objectForKey: [[sender selectedItem] title]];
+    self.settings.temperatureId = (self.preferencesTemperatureSensorTitleToId)[[[sender selectedItem] title]];
     
     [self forceRefreshInterface];
 }
@@ -928,11 +925,6 @@
 
     
     
-}
-
-
-- (IBAction)preferencesViewAbout:(NSButton *)sender {
-    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: @"https://github.com/alexking/StatusThing/wiki/About-Page"]];
 }
 
 /* Termination */

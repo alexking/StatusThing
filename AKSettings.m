@@ -22,11 +22,10 @@
 {
     
     // Register our default defaults
-    NSDictionary *defaults = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithBool: YES], @"showTemperatureInStatusBar",
-                              [NSNumber numberWithBool: YES], @"showTemperatureInCelsius",
-                              @"",                            @"selectedTemperatureId",
-                              nil];
+    NSDictionary *defaults = @{ @"showTemperatureInStatusBar" : @YES,
+                                @"showTemperatureInCelsius"   : @YES,
+                                @"selectedTemperatureId"      : @""
+                              };
     
     [[NSUserDefaults standardUserDefaults] registerDefaults: defaults];
     
@@ -63,30 +62,30 @@
 /* clientSecret */
 -(void)setClientSecret:(NSString *)clientSecret
 {
-    [[FXKeychain defaultKeychain] setObject: clientSecret forKey: @"clientSecret"];
+    [FXKeychain defaultKeychain][@"clientSecret"] = clientSecret;
 }
 
 -(NSString *)clientSecret
 {
-    return [[FXKeychain defaultKeychain] objectForKey: @"clientSecret"];
+    return [FXKeychain defaultKeychain][@"clientSecret"];
 }
 
 /* clientSecret */
 -(void)setAccessToken:(NSString *)accessToken
 {
-    [[FXKeychain defaultKeychain] setObject: accessToken forKey: @"accessToken"];
+    [FXKeychain defaultKeychain][@"accessToken"] = accessToken;
 }
 
 -(NSString *)accessToken
 {
-    return [[FXKeychain defaultKeychain] objectForKey: @"accessToken"];
+    return [FXKeychain defaultKeychain][@"accessToken"];
 }
 
 
 /* TemperatureInStatusBar */
 -(void)setShowTemperatureInStatusBar: (bool)value
 {
-    [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithBool: value]
+    [[NSUserDefaults standardUserDefaults] setObject: @(value)
                                               forKey: @"showTemperatureInStatusBar"];
 }
 
@@ -98,7 +97,7 @@
 /* TemperatureInCelsius */
 -(void)setShowTemperatureInCelsius: (bool)value
 {
-    [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithBool: value]
+    [[NSUserDefaults standardUserDefaults] setObject: @(value)
                                               forKey: @"showTemperatureInCelsius"];
 }
 
