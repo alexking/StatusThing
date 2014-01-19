@@ -11,6 +11,8 @@ preferences {
     section("Settings") {
         input "switches", "capability.switch", title : "Switches", multiple : true, required : true
         input "temperatures", "capability.temperatureMeasurement", title : "Temperature", multiple : true, required : true
+        input "thermostats", "capability.thermostat", title : "Thermostats", multiple : true, required : true
+
     }
 }
 
@@ -44,6 +46,11 @@ def updateItemsAndTemperatures()
 
     def temperatureItems = []
     for (temperature in temperatures)
+    {
+        temperatureItems << [ 'id' : temperature.id, 'name' : temperature.displayName, 'value' : temperature.currentValue('temperature') ]
+    }
+    
+    for (temperature in thermostats)
     {
         temperatureItems << [ 'id' : temperature.id, 'name' : temperature.displayName, 'value' : temperature.currentValue('temperature') ]
     }
