@@ -41,7 +41,7 @@ def updateItemsAndTemperatures()
     def items = []
     for (item in switches)
     {
-        items << [ 'id' : item.id , 'state' : item.currentValue('switch') ?: '' , 'name' : item.displayName ]
+        items << [ 'id' : item.id , 'state' : item.currentValue('switch') ?: false , 'name' : item.displayName ]
     }
 
     def temperatureItems = []
