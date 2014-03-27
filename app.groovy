@@ -47,19 +47,23 @@ def updateItemsAndTemperatures()
     def temperatureItems = []
     if (temperatures)
     {
-    	for (temperature in temperatures)
+        for (temperature in temperatures)
         {
-            temperatureItems << [ 'id' : temperature.id, 'name' : temperature.displayName, 'value' : temperature.currentValue('temperature') ]
-    	}
+            def temperatureState = temperature.currentState('temperature')
+            
+            temperatureItems << [ 'id' : temperature.id, 'name' : temperature.displayName, 'value' : temperature.currentValue("temperature"), 'unit' : temperatureState.unit]
+        }
     }
     
     if (thermostats)
     {
-    	for (temperature in thermostats)
-    	{
-    	    temperatureItems << [ 'id' : temperature.id, 'name' : temperature.displayName, 'value' : temperature.currentValue('temperature') ]
-    	}
-	}
+        for (temperature in thermostats)
+        {
+            def temperatureState = temperature.currentState('temperature')
+
+            temperatureItems << [ 'id' : temperature.id, 'name' : temperature.displayName, 'value' : temperature.currentValue("temperature"), 'unit' : temperatureState.unit]
+        }
+    }
 
     [ 'temperatures' : temperatureItems , 'items' : items ]
 

@@ -197,7 +197,7 @@
 
     
     // We may want to give up on the menu before we start
-    if (self.items == nil || [self.items count] == 0)
+    if ((self.items == nil || [self.items count] == 0) && self.settings.accessToken == nil)
     {
         
         // Remove the menu
@@ -469,7 +469,7 @@
     }
     
     // Look for the temperature
-    NSNumber *temperatureNumber;
+    NSDictionary *selectedSensor;
     
     // Display the temperature
     if (! [[self.settings temperatureId] isEqualToString: @""])
@@ -481,7 +481,8 @@
             
             if ([sensor[@"id"] isEqualToString: sensorId])
             {
-                temperatureNumber = sensor[@"value"];
+                selectedSensor = sensor;
+
                 continue;
             }
             
@@ -489,25 +490,46 @@
         
     }
     
-    // If temperature number is still nil, then just use the first object
-    if (temperatureNumber == nil)
+    // If temperature sensor is still nil, then just use the first object
+    if (selectedSensor == nil)
     {
-        temperatureNumber = [self.temperatures firstObject][@"value"];
+        selectedSensor = [self.temperatures firstObject];
     }
     
     // If we still don't have anything, whatever we do, don't show crazy long values
-    if (temperatureNumber == nil)
+    if (selectedSensor == nil)
     {
         return placeholder;
     }
     
     // Convert to long
-    long temperature = [temperatureNumber longValue];
+    long temperature = [selectedSensor[@"value"] longValue];
 
-    // Convert to celsius if requested
-    if ([self.settings showTemperatureInCelsius])
-    {
-        temperature = (temperature - 32) * (5.0 / 9.0);
+    
+    // Do we have a unit value?
+    if (selectedSensor[@"unit"] != nil) {
+     
+        // We may need to do a conversion
+        NSString *sourceUnit = selectedSensor[@"unit"];
+        NSString *targetUnit = [self.settings showTemperatureInCelsius] ? @"C" : @"F";
+        
+        // C to F
+        if ([sourceUnit isEqualToString: @"C"] && [targetUnit isEqualToString: @"F"]) {
+            temperature = (temperature * (9.0 / 5.0)) + 32;
+
+        // F to C
+        } else if ([sourceUnit isEqualToString: @"F"] && [targetUnit isEqualToString: @"C"]) {
+            temperature = (temperature - 32) * (5.0 / 9.0);
+        }
+        
+    // Continue normally
+    } else {
+        
+        // Convert to celsius if requested
+        if ([self.settings showTemperatureInCelsius])
+        {
+            temperature = (temperature - 32) * (5.0 / 9.0);
+        }
     }
     
     return [NSString stringWithFormat: @"%ld%@", temperature, degree];
@@ -566,7 +588,7 @@
 /*! Update the interface from SmartThings */
 - (void) itemsAndTemperatureFound: (id) json
 {
-    
+
     self.updateFromServerInProgress = NO;
 
     NSArray *items = json[@"items"];
@@ -597,8 +619,13 @@
 - (void) itemClick: (NSMenuItem *) sender
 {
     
-    NSDictionary *item = (self.items)[([sender tag] - 100)];
+    // Make sure we are within the bounds
+    if ([self.items count] == 0) {
+        return;
+    }
     
+    NSDictionary *item = (self.items)[([sender tag] - 100)];
+
     // Find the item ID
     NSString *itemId = item[@"id"];
     
@@ -803,9 +830,7 @@
 
 -(void)controlTextDidChange:(NSNotification*)aNotification
 {
-    
-    NSLog(@"%@", [self.preferencesClientSecret stringValue]);
-    
+        
     // Validate on each change
     [self validateOAuthFields];
 
