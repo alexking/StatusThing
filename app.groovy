@@ -7,6 +7,18 @@
  *  Download the Mac App at https://github.com/alexking/StatusThing
  *
  */
+
+definition(
+    name: "StatusThing",
+    namespace: "",
+    author: "alexking@me.com",
+    description: "Mac app for controlling your SmartThings from your status bar. See the temperature at a glance, it F° or C°.",
+    category: "Convenience",
+    iconUrl: "https://alexking.io/StatusThing/SmartApp.png",
+    iconX2Url: "https://alexking.io/StatusThing/SmartApp@2x.png",
+    oauth: [displayName: "StatusThing", displayLink: ""]
+)
+
 preferences {
     section("Settings") {
         input "switches", "capability.switch", title : "Switches", multiple : true, required : true
@@ -51,7 +63,12 @@ def updateItemsAndTemperatures()
         {
             def temperatureState = temperature.currentState('temperature')
             
-            temperatureItems << [ 'id' : temperature.id, 'name' : temperature.displayName, 'value' : temperature.currentValue("temperature"), 'unit' : temperatureState.unit]
+            temperatureItems << [ 
+                'id'    : temperature.id, 
+                'name'  : temperature.displayName, 
+                'value' : temperature.currentValue("temperature"), 
+                'unit'  : temperatureState.hasProperty('unit') ? temperatureState.unit : 'F'
+            ]
         }
     }
     
@@ -60,8 +77,16 @@ def updateItemsAndTemperatures()
         for (temperature in thermostats)
         {
             def temperatureState = temperature.currentState('temperature')
-
-            temperatureItems << [ 'id' : temperature.id, 'name' : temperature.displayName, 'value' : temperature.currentValue("temperature"), 'unit' : temperatureState.unit]
+            
+            if (temperatureState != null) {
+                temperatureItems << [ 
+                    'id'    : temperature.id, 
+                    'name'  : temperature.displayName, 
+                    'value' : temperature.currentValue("temperature"), 
+                    'unit'  : temperatureState.hasProperty('unit') ? temperatureState.unit : 'F'
+                ]
+            }
+            
         }
     }
 
