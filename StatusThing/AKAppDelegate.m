@@ -231,7 +231,7 @@
             NSMenuItem *temperatureItem = [self.statusMenu itemWithTag: temperatureTag];
             
             // Find the string we need
-            NSString *temperatureTitle = [NSString stringWithFormat: @"%@ – %@", temperature[@"temperature"], temperature[@"name"] ];
+            NSString *temperatureTitle = [NSString stringWithFormat: @"%@\t%@", temperature[@"temperature"], temperature[@"name"] ];
             
             // Add it if it doesn't exist
             if (temperatureItem == nil)
@@ -419,15 +419,9 @@
         {
             continue;
         }
-            
-        // Convert to long
-        long temperature = [temperatureNumber longValue];
         
-        // Convert to celsius if requested
-        if ([self.settings showTemperatureInCelsius])
-        {
-            temperature = (temperature - 32) * (5.0 / 9.0);
-        }
+        // Convert to target unit
+        long temperature = [self prepareTemperatureFromSensor: sensor];
         
         // Add a dictionary to our array
         [temperatures addObject: @{ @"temperature": [NSString stringWithFormat: @"%ld°", temperature],
@@ -502,27 +496,37 @@
         return placeholder;
     }
     
-    // Convert to long
-    long temperature = [selectedSensor[@"value"] longValue];
+    // Convert to the correct target unit
+    long temperature = [self prepareTemperatureFromSensor: selectedSensor];
+    
+    return [NSString stringWithFormat: @"%ld%@", temperature, degree];
+    
 
+
+}
+
+- (long) prepareTemperatureFromSensor: (NSDictionary *) sensor {
+    
+    // Convert to long
+    long temperature = [sensor[@"value"] longValue];
     
     // Do we have a unit value?
-    if (selectedSensor[@"unit"] != nil) {
-     
+    if (sensor[@"unit"] != nil) {
+        
         // We may need to do a conversion
-        NSString *sourceUnit = selectedSensor[@"unit"];
+        NSString *sourceUnit = sensor[@"unit"];
         NSString *targetUnit = [self.settings showTemperatureInCelsius] ? @"C" : @"F";
         
         // C to F
         if ([sourceUnit isEqualToString: @"C"] && [targetUnit isEqualToString: @"F"]) {
             temperature = (temperature * (9.0 / 5.0)) + 32;
-
+            
         // F to C
         } else if ([sourceUnit isEqualToString: @"F"] && [targetUnit isEqualToString: @"C"]) {
             temperature = (temperature - 32) * (5.0 / 9.0);
         }
         
-    // Continue normally
+    // Use old behavior (assume F)
     } else {
         
         // Convert to celsius if requested
@@ -531,11 +535,8 @@
             temperature = (temperature - 32) * (5.0 / 9.0);
         }
     }
-    
-    return [NSString stringWithFormat: @"%ld%@", temperature, degree];
-    
 
-
+    return temperature;
 }
 
 /*! Handle status bar */
