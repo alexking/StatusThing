@@ -18,8 +18,6 @@ Currently there is no way to publish a SmartApp for everyone to use, so you have
 4. Go back to preferences and click the `Authorize` button under accounts. You'll be redirected to a page where you can set which devices the app can access.
 5. Enjoy!
 
-Optional Step: Add the [SmartApp.png](SmartApp.png) and [SmartApp@2x.png](SmartApp@2x.png) files to your SmartApp, just for looks. 
-
 ## Build Instructions 
 If you're building the app from source, be sure to install [CocoaPods](http://cocoapods.org) and run `pod` in the root directory to include all dependencies.  
 
