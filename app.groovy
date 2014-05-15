@@ -66,7 +66,7 @@ def updateItemsAndTemperatures()
             temperatureItems << [ 
                 'id'    : temperature.id, 
                 'name'  : temperature.displayName, 
-                'value' : temperature.currentValue("temperature"), 
+                'value' : temperature.currentValue("temperature").toInteger(), 
                 'unit'  : temperatureState.hasProperty('unit') ? temperatureState.unit : 'F'
             ]
         }
@@ -82,7 +82,7 @@ def updateItemsAndTemperatures()
                 temperatureItems << [ 
                     'id'    : temperature.id, 
                     'name'  : temperature.displayName, 
-                    'value' : temperature.currentValue("temperature"), 
+                    'value' : temperature.currentValue("temperature").toInteger(), 
                     'unit'  : temperatureState.hasProperty('unit') ? temperatureState.unit : 'F'
                 ]
             }
