@@ -23,3 +23,6 @@ If you're building the app from source, be sure to install [CocoaPods](http://co
 
 ## Notes
 The app uses the AKSmartThings library, which you can get [here to use in your own projects](https://github.com/alexking/AKSmartThings). 
+
+## License
+[MIT License](LICENSE)
