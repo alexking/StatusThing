@@ -5,6 +5,10 @@ Mac app status bar app for SmartThings
 
 ![screenshot](screenshot.png)
 
+## UPDATES: Only two small changes from orignal.
+1. Code being pasted into Smartthings (which needs to replace pre-existing code auto-populated by Smartthings) needs an opening: Add '/' to column 2, line 2 for the first line, "/*  Statusthing"
+2. NOT working for OS X 10.10 Yosemite yet. Upon final step Authorizing, local app crashes not allowing authorization to finalize.
+
 ## Download
 You can [download the app here](http://alexking.io/StatusThing) (tested on OSX 10.9 only). It's just version 0.1, so please post any issues you encounter!
 
