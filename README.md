@@ -1,7 +1,7 @@
 StatusThing
 ===========
 
-Mac app status bar app for SmartThings
+**Note:** I'm not actively working on this project as I don't use SmartThings much anymore. I'd encourage people who are interested to fork the project - I'd be happy to link your more maintained version from here!
 
 ![screenshot](screenshot.png)
 
